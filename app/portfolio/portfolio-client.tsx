@@ -221,26 +221,24 @@ export default function PortfolioClient({
             })}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             {perspectives.map((item, i) => {
               const tag = TAGS[item.slug];
               return (
                 <Link
                   key={item.slug}
                   href={`/portfolio/${item.slug}`}
-                  className="fade-up group flex flex-col justify-between gap-3 rounded-xl border border-neutral-100 dark:border-neutral-800 p-4 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+                  className="fade-up group flex flex-col gap-1.5 rounded-lg border border-neutral-100 dark:border-neutral-800 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
                   style={{ animationDelay: `${(NAV_COUNT + 2 + i) * 0.05}s` }}
                 >
-                  <div>
-                    {tag && (
-                      <span className={`inline-block rounded-full px-2 py-0.5 text-[11px] font-medium mb-2 ${tag.color}`}>
-                        {tag.label}
-                      </span>
-                    )}
-                    <p className="text-[14px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
-                    <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400 leading-snug">{item.description}</p>
-                  </div>
-                  <span className="text-neutral-300 group-hover:text-neutral-600 dark:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors text-sm">→</span>
+                  {tag && (
+                    <span className={`inline-block self-start rounded-full px-1.5 py-0.5 text-[10px] font-medium ${tag.color}`}>
+                      {tag.label}
+                    </span>
+                  )}
+                  <p className="text-[13px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
+                  <p className="text-[12px] text-neutral-400 dark:text-neutral-500 leading-snug">{item.description}</p>
+                  <span className="mt-auto text-[11px] text-neutral-300 group-hover:text-neutral-500 dark:text-neutral-600 dark:group-hover:text-neutral-400 transition-colors">→</span>
                 </Link>
               );
             })}
