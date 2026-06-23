@@ -11,30 +11,29 @@ const nav = [
   { label: "Bookshelf",   href: "/bookshelf"   },
   { label: "Principles",  href: "/principles"  },
   { label: "Photography", href: "/photography" },
-  { label: "Vault",       href: "/vault"       },
 ];
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  if (!mounted) return <div className="h-4 w-4" />;
+  if (!mounted) return <div className="h-5 w-9" />;
+
+  const dark = theme === "dark";
 
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="mt-8 text-neutral-400 hover:text-neutral-600 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors"
+      onClick={() => setTheme(dark ? "light" : "dark")}
       aria-label="Toggle theme"
+      className={`mt-8 relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${
+        dark ? "bg-neutral-600" : "bg-neutral-200"
+      }`}
     >
-      {theme === "dark" ? (
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-          <path d="M7.5 1v1M7.5 13v1M1 7.5H0M14 7.5h1M2.9 2.9l-.7-.7M12.8 12.8l-.7-.7M2.9 12.1l-.7.7M12.8 2.2l-.7.7M7.5 4.5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-        </svg>
-      ) : (
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-          <path d="M2.5 7.5a5 5 0 0 0 9.3 2.6A5 5 0 0 1 5 4.2a5 5 0 0 0-2.5 3.3z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      )}
+      <span
+        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow transition duration-200 ${
+          dark ? "translate-x-4" : "translate-x-0"
+        }`}
+      />
     </button>
   );
 }

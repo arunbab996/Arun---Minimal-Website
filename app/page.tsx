@@ -18,6 +18,62 @@ const blocks = [
     type: "bio",
     content: (
       <>
+        I&apos;m building products at{" "}
+        <a
+          href="https://januarycapital.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+        >
+          <img
+            src="/images/january-capital-logo.png"
+            alt=""
+            width={20}
+            height={20}
+            className="inline-block rounded-sm align-middle"
+          />
+          January Capital
+        </a>
+        . Previously built{" "}
+        <a
+          href="https://www.discoveryos.xyz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+        >
+          <img
+            src="/images/discoveryos-logo.svg"
+            alt=""
+            width={20}
+            height={20}
+            className="inline-block rounded-sm align-middle"
+          />
+          discovery/OS
+        </a>
+        {" "}and led a product at{" "}
+        <a
+          href="https://tryspecter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+        >
+          <img
+            src="/images/specter-logo.png"
+            alt=""
+            width={20}
+            height={20}
+            className="inline-block rounded-sm align-middle"
+          />
+          Specter
+        </a>
+        .
+      </>
+    ),
+  },
+  {
+    type: "bio",
+    content: (
+      <>
         I&apos;ve spent time across early-stage startups and research
         institutions, obsessing over how technology shapes the way people think
         and decide. I believe the best products are the ones that feel
@@ -53,7 +109,7 @@ const blocks = [
   },
   {
     type: "sig",
-    content: <>~/A</>,
+    content: <>~/ABC</>,
   },
 ];
 
@@ -68,12 +124,12 @@ export default function Home() {
         className="fade-up mb-8"
         style={{ animationDelay: `${navCount * 0.05}s` }}
       >
-        <h1 className="text-[18px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
-        <p className="mt-0.5 text-[15px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
+        <h1 className="text-[20px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
+        <p className="mt-0.5 text-[16px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
       </div>
 
       {/* Bio blocks */}
-      <div className="space-y-5 text-[15px] leading-[1.75] text-[#111111] dark:text-[#d4d4d4]">
+      <div className="space-y-5 text-[17px] leading-[1.75] text-[#111111] dark:text-[#d4d4d4]">
         {blocks.map((block, i) => (
           <p
             key={i}

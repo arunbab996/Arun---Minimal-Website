@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full bg-white text-[#111111] dark:bg-[#111111] dark:text-[#e5e5e5]">
         <Providers>
-          <div className="min-h-screen">
+<div className="min-h-screen">
             <Nav />
             {children}
           </div>
