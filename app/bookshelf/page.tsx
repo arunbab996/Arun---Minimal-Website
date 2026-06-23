@@ -95,7 +95,7 @@ export default function BookshelfPage() {
   return (
     <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
       <h1
-        className="fade-up mb-10 text-[19px] font-semibold"
+        className="fade-up mb-10 text-[19px] font-semibold dark:text-white"
         style={{ animationDelay: `${NAV_COUNT * 0.05}s` }}
       >
         Bookshelf
@@ -172,7 +172,7 @@ function BookCard({ book }: { book: Book }) {
         />
       </div>
       <div className="mt-1.5">
-        <p className="text-[11px] font-medium leading-tight text-[#1a1a1a] line-clamp-2">{book.title}</p>
+        <p className="text-[11px] font-medium leading-tight text-[#1a1a1a] dark:text-[#e5e5e5] line-clamp-2">{book.title}</p>
         <p className="mt-0.5 text-[10px] leading-tight text-neutral-400 line-clamp-1">{book.author}</p>
       </div>
     </div>

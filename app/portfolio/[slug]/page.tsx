@@ -25,18 +25,18 @@ export default async function PerspectivePage({ params }: { params: Promise<{ sl
       <FadeIn delay={100}>
         <Link
           href="/portfolio"
-          className="inline-flex items-center gap-1.5 text-sm text-neutral-400 hover:text-[#1a1a1a] transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-neutral-400 hover:text-[#1a1a1a] dark:hover:text-white transition-colors"
         >
           ← Portfolio
         </Link>
       </FadeIn>
 
       <FadeIn delay={250} className="mt-6 mb-10">
-        <h1 className="text-[19px] font-semibold leading-snug">{post.title}</h1>
-        <p className="mt-1 text-sm text-neutral-400">{post.description}</p>
+        <h1 className="text-[19px] font-semibold leading-snug dark:text-white">{post.title}</h1>
+        <p className="mt-1 text-sm text-neutral-400 dark:text-neutral-500">{post.description}</p>
       </FadeIn>
 
-      <FadeIn delay={400} className="prose prose-sm prose-neutral max-w-none">
+      <FadeIn delay={400} className="prose prose-sm prose-neutral dark:prose-invert max-w-none">
         <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </FadeIn>
     </main>

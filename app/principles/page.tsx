@@ -9,7 +9,7 @@ const principles = [
   },
   {
     title: "Start from the user, not the feature.",
-    body: "Understand the person — their pain, workflow, and constraints — before designing product or recommending investments.",
+    body: "Understand the person: their pain, workflow, and constraints, before designing product or recommending investments.",
   },
   {
     title: "Write to think.",
@@ -31,7 +31,7 @@ export default function PrinciplesPage() {
   return (
     <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
       <h1
-        className="fade-up mb-10 text-[19px] font-semibold"
+        className="fade-up mb-10 text-[19px] font-semibold dark:text-white"
         style={{ animationDelay: `${NAV_COUNT * 0.05}s` }}
       >
         Principles
@@ -44,10 +44,10 @@ export default function PrinciplesPage() {
             className="fade-up flex gap-6"
             style={{ animationDelay: `${(NAV_COUNT + 1 + i) * 0.05}s` }}
           >
-            <span className="mt-0.5 w-5 shrink-0 text-sm text-neutral-300">{i + 1}.</span>
+            <span className="mt-0.5 w-5 shrink-0 text-sm font-medium text-neutral-400">{i + 1}</span>
             <div>
-              <p className="text-[15px] font-semibold text-[#1a1a1a]">{p.title}</p>
-              <p className="mt-1 text-sm leading-relaxed text-neutral-500">{p.body}</p>
+              <p className="text-[15px] font-semibold text-[#1a1a1a] dark:text-[#e5e5e5]">{p.title}</p>
+              <p className="mt-1 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">{p.body}</p>
             </div>
           </li>
         ))}

@@ -5,32 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 type Photo = { url: string; loc: string; date: string };
 
 function thumbUrl(url: string) {
-  return url.replace("/upload/", "/upload/c_scale,w_600/");
-}
-
-function PhotoCard({ photo, index, onClick }: { photo: Photo; index: number; onClick: () => void }) {
-  const [loaded, setLoaded] = useState(false);
-
-  return (
-    <div
-      className="relative mb-3 cursor-pointer overflow-hidden rounded-sm break-inside-avoid"
-      onClick={onClick}
-    >
-      {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-neutral-800" />
-      )}
-      <img
-        src={thumbUrl(photo.url)}
-        alt={photo.loc}
-        loading={index < 4 ? "eager" : "lazy"}
-        onLoad={() => setLoaded(true)}
-        className="block w-full transition-all duration-300"
-        style={{ filter: loaded ? "grayscale(15%)" : "none" }}
-        onMouseEnter={(e) => (e.currentTarget.style.filter = "grayscale(0%)")}
-        onMouseLeave={(e) => (e.currentTarget.style.filter = "grayscale(15%)")}
-      />
-    </div>
-  );
+  return url.replace("/upload/", "/upload/c_scale,w_800/");
 }
 
 export default function PhotographyClient({ photos }: { photos: Photo[] }) {
@@ -55,20 +30,46 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
     return () => window.removeEventListener("keydown", handler);
   }, [lightbox, prev, next]);
 
+  // Group photos by trip (derived from date)
+  const paris = photos.filter((p) => p.date.includes("2025"));
+  const japan = photos.filter((p) => p.date.includes("2024"));
+
+  const groups = [
+    { label: "Paris", sub: "March 2025", photos: paris },
+    { label: "Japan", sub: "September 2024", photos: japan },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] px-6 pt-[72px] pb-20">
-      {/* Masonry grid */}
-      <div
-        style={{
-          columnCount: 3,
-          columnGap: "12px",
-        }}
-        className="max-w-[900px] mx-auto [column-count:3] md:[column-count:3] sm:[column-count:2]"
-      >
-        {photos.map((photo, i) => (
-          <PhotoCard key={photo.url} photo={photo} index={i} onClick={() => setLightbox(i)} />
-        ))}
-      </div>
+    <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
+      {groups.map((group) => (
+        <section key={group.label} className="mb-16">
+          <div className="mb-6">
+            <h2 className="text-[15px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5]">{group.label}</h2>
+            <p className="text-sm text-neutral-400 dark:text-neutral-500">{group.sub}</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {group.photos.map((photo) => {
+              const globalIndex = photos.indexOf(photo);
+              return (
+                <button
+                  key={photo.url}
+                  onClick={() => setLightbox(globalIndex)}
+                  className="group relative overflow-hidden rounded-sm text-left"
+                >
+                  <img
+                    src={thumbUrl(photo.url)}
+                    alt={photo.loc}
+                    loading={globalIndex < 4 ? "eager" : "lazy"}
+                    className="block w-full object-cover transition-opacity duration-300 group-hover:opacity-85"
+                  />
+                  <p className="mt-1.5 text-xs text-neutral-400 dark:text-neutral-500">{photo.loc}</p>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ))}
 
       {/* Lightbox */}
       {lightbox !== null && (
@@ -76,12 +77,10 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
           onClick={() => setLightbox(null)}
         >
-          {/* Left half — prev */}
           <div
             className="absolute left-0 top-0 h-full w-1/2 cursor-w-resize z-10"
             onClick={(e) => { e.stopPropagation(); prev(); }}
           />
-          {/* Right half — next */}
           <div
             className="absolute right-0 top-0 h-full w-1/2 cursor-e-resize z-10"
             onClick={(e) => { e.stopPropagation(); next(); }}
@@ -106,6 +105,6 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 }

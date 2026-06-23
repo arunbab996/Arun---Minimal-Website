@@ -68,12 +68,12 @@ export default function Home() {
         className="fade-up mb-8"
         style={{ animationDelay: `${navCount * 0.05}s` }}
       >
-        <h1 className="text-[16px] font-bold leading-snug text-black">Arun Baburaj</h1>
-        <p className="mt-1 text-[15px] text-[#6b7280]">Chronically curious.</p>
+        <h1 className="text-[18px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
+        <p className="mt-0.5 text-[15px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
       </div>
 
       {/* Bio blocks */}
-      <div className="space-y-5 text-[15px] leading-[1.75] text-black">
+      <div className="space-y-5 text-[15px] leading-[1.75] text-[#111111] dark:text-[#d4d4d4]">
         {blocks.map((block, i) => (
           <p
             key={i}

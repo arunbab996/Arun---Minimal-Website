@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville } from "next/font/google";
+import { Inter } from "next/font/google";
 import Nav from "./nav";
+import Providers from "./providers";
 import "./globals.css";
 
-const libreBaskerville = Libre_Baskerville({ subsets: ["latin"], weight: ["400", "700"], style: ["normal", "italic"], variable: "--font-libre" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Arun Baburaj",
@@ -17,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${libreBaskerville.variable} h-full antialiased`}>
-      <body className="min-h-full bg-white text-[#1a1a1a]">
-        <div className="min-h-screen">
-          <Nav />
-          {children}
-        </div>
+    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <body className="min-h-full bg-white text-[#111111] dark:bg-[#111111] dark:text-[#e5e5e5]">
+        <Providers>
+          <div className="min-h-screen">
+            <Nav />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

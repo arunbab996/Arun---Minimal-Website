@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
 body {
-  font-family: var(--font-libre), Georgia, serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @keyframes fadeUp {
