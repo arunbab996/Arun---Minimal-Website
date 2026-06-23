@@ -1,0 +1,97 @@
+---
+title: "Swiggy: Enabling Multi-Restaurant Composite Delivery"
+description: "Product Strategy · Logistics · Food Delivery"
+---
+
+![Swiggy hero](/images/swiggy/hero.png)
+
+## 1. Product Background
+
+Swiggy is India's largest food delivery platform, with more than 2.7 lakh restaurants onboarded across 500+ cities. Its logistics network and fleet optimisation are among the best in the world. Swiggy built Instamart, Genie, and Dineout on top of this same logistics infrastructure.
+
+Food delivery is a high-frequency business but also high-churn. Reducing friction and meeting strong user intent is critical for both revenue and retention.
+
+This case study focuses specifically on a behaviour observed in Tier-1 users: ordering multiple items from different restaurants in a single meal window.
+
+## 2. Problem Statement
+
+Today, users cannot combine items from multiple restaurants into one order. They need to:
+
+- Place multiple separate orders
+- Pay multiple delivery fees
+- Wait for multiple riders
+
+This creates friction for users with different taste preferences in the same household, users who want a meal + dessert combo from different outlets, and users who want to try items across restaurants.
+
+The opportunity: let users build a composite order across restaurants and get a single delivery.
+
+## 3. User Personas
+
+**Rahul**, 29, Bengaluru
+Works at a tech startup, lives with his partner. Both have different food preferences. Orders 12–15 times a month.
+
+**Nandini**, 24, Pune
+Lives with roommates. Group orders are frequent. They want different items from different restaurants.
+
+## 4. Insights
+
+- Food preferences diverge heavily within the same household
+- Swiggy Genie is sometimes used as a hack for cross-restaurant orders
+- Users care about timing, they want everything to arrive together
+- High-intent use cases (weekends, celebrations) see willingness to pay a premium
+
+## 5. Proposed Solution: Composite Food Cart
+
+The idea: allow users to add items from multiple restaurants into one composite cart, as long as they meet certain radius, timing, and compatibility constraints.
+
+![Composite cart mockup](/images/swiggy/composite-cart.png)
+
+**Key Features**
+- Add items from multiple restaurants
+- Single checkout and payment
+- Unified delivery tracking
+- Smart batching by kitchen readiness time
+- Price transparency for additional logistics fee
+
+## 6. Operational Constraints
+
+- Only restaurants within a specific delivery corridor can be combined
+- Rider needs optimal batching path
+- Kitchen prep time mismatch must be handled (buffering + sequencing)
+- High-load zones may disable composite ordering dynamically
+
+![Delivery batching mockup](/images/swiggy/batching.png)
+
+## 7. Pricing Model
+
+Composite delivery introduces new marginal costs on Swiggy's logistics side. A simple, transparent model can solve this:
+
+| Component | Fee |
+|---|---|
+| Base delivery | ₹35–₹45 |
+| Additional restaurant pickup | ₹15–₹25 |
+| Peak-time dynamic fee | ₹10–₹20 |
+
+High-intent users are comfortable paying +₹20 to +₹40 for convenience.
+
+## 8. Success Metrics
+
+- Conversion rate for multi-restaurant carts
+- Incremental AOV for composite vs single-restaurant orders
+- Order success rate (batched delivery completion)
+- Repeat rate for users who try composite ordering
+
+## 9. Risks & Mitigations
+
+| Risk | Mitigation |
+|---|---|
+| Delay risk | Prep-time sequencing |
+| Rider overload | Enable composite ordering only during stable capacity |
+| User confusion on fees | Upfront price explanation |
+| Operational failure | Auto-split into two orders if incompatibility detected |
+
+## 10. Final Recommendation
+
+The Composite Cart unlocks a new behaviour for Swiggy: household-level ordering instead of individual ordering. This expands AOV, improves retention, and increases Swiggy's defensibility against competitors.
+
+Given India's diverse food preferences, composite food ordering has very strong product-market fit potential in Tier-1 households.

@@ -1,0 +1,139 @@
+---
+title: "Jupiter: Gamification PRD"
+description: "Incorporating game elements into a Neobank experience."
+---
+
+![Jupiter hero](/images/jupiter/hero.png)
+
+## 1. Strategic Context
+
+Jupiter's long-term strategic moat cannot be built on payments, which are fully commoditised, nor on banking rails, which are standardised. The real moat lies in habit formation: creating a financial behaviour ecosystem where users repeatedly return, not because they must, but because the system makes managing money feel rewarding, clarifying, and emotionally reinforcing.
+
+Budgeting should be that anchor habit, but current user behaviour demonstrates the opposite pattern: strong initial intent → rapid decay → long-term disengagement.
+
+This drop-off is not unique to Jupiter; it is a well-documented behaviour gap across global fintech products: people want to "be better with money," but the cognitive load of tracking expenses, interpreting data, and making weekly adjustments is high. What Jupiter lacks is not data, but a behaviour-shaping layer that transforms information into meaning, meaning into action, and action into sustained habit.
+
+If Jupiter can turn budgeting into a weekly ritual, it unlocks a multi-year LTV flywheel:
+
+- Monitor spending → reduce bad behaviours
+- Build savings → increase deposits
+- Form trust → adopt pots, UPI++, card features
+- Become credit eligible → open lending opportunities
+- Engage weekly → deepen retention loops
+
+The proposed Gamification Layer enables this by aligning product mechanics with human behavioural architecture.
+
+## 2. Problem Statement: The Behavioural Gap
+
+The problem is not that users "don't budget." The problem is that Jupiter's current structure asks users to do the hard part of budgeting, interpretation and discipline, without providing the emotional scaffolding required to sustain it.
+
+### 2.1 Cognitive Interpretation Gap
+
+Users do not struggle with numbers; they struggle with meaning. A category total of ₹3,450 is inert information. A contextual insight like "up 44% vs last week" is a narrative. Narratives activate the brain's pattern-detection systems. Numbers activate working memory, which fatigues quickly. This is why current Insights underperform: they are accurate but meaningless without interpretation.
+
+### 2.2 Motivation Gap
+
+Discipline has no immediate reward; indulgence does. Ordering a meal = instant dopamine. Staying within budget = no visible reward. Unless the system creates micro-reward loops, intention always loses to temptation.
+
+### 2.3 Action Gap
+
+Even when meaning is clear, action is not. "Your food spending increased" is merely information. "Set a ₹2,500 weekly food budget?" is an actionable trigger. Without reducing the number of decisions required, users default to avoidance.
+
+### 2.4 Feedback Loop Gap
+
+Humans build habits through tight feedback loops. Jupiter's budgeting currently provides no weekly closure, no emotional reinforcement, no visible progress, and no comparative context. The user is left floating in ambiguity. To correct behaviour, the system must provide fast, emotionally salient, and identity-building feedback.
+
+## 3. Product Vision
+
+Build a behaviour-shaping financial layer that translates raw spending into emotionally resonant insights, action-ready triggers, and weekly progress loops, enabling young Indians to internalise financial discipline as part of their identity.
+
+This is not "gamification" in the entertainment sense. This is behavioural infrastructure, similar to what Duolingo did for learning or Strava did for fitness.
+
+## 4. Proposed Solution: The Behaviour Architecture
+
+The solution consists of four interlocking systems, each reinforcing the others.
+
+### 4.1 Insight Reframing Layer
+
+The first step in behaviour change is comprehension, not action. We replace passive category totals with interpretive insights: week-over-week changes, percentage deltas, contextual interpretation, spend anomalies, and behaviour-based micro-narratives.
+
+**Example:** "You spent 44% more on Food this week, likely due to two Swiggy orders on Friday. If you repeat this pattern, you'll overshoot next week's food budget by ₹600."
+
+This converts numeric data into stories the user can act on, reduces cognitive load by shifting interpretation from user → product, and builds emotional salience by highlighting implications, not just numbers.
+
+### 4.2 Weekly Budget Challenge Engine
+
+Instead of asking users to "create a budget," which feels heavy, we offer a pre-framed prompt: "Set a Food challenge for next week? Recommended budget: ₹2,500." The user makes a single binary decision: yes or no.
+
+Once activated, the challenge becomes a weekly behavioural loop: budget limit, real-time tracking, smart nudges at 70% and 100%, win/loss evaluation every Sunday, automatic reset prompt. Important: win or lose, the user should feel safe returning.
+
+### 4.3 Social Benchmarking Layer
+
+People are more motivated by relative progress than absolute metrics. However, competitive ranking can be demotivating if not designed carefully. We use soft benchmarking: percentile bands, city-level comparison, "among users with similar budgets" framing, never showing "you are worse than X%".
+
+**Example:** "You're in the top 30% of Food budgeters in Bengaluru this week."
+
+### 4.4 Emotional Feedback Layer
+
+Humans repeat behaviours that generate emotional closure. This layer uses confetti micro-interactions, haptic taps, expressive emojis, warm conversational tone, and weekly progress cards.
+
+**Example:** "You stayed within budget despite a higher spend on Saturday, impressive discipline!"
+
+![Challenge mockup](/images/jupiter/challenge-mockup.png)
+
+![Wireframe](/images/jupiter/wireframe.png)
+
+## 5. Technical Architecture
+
+### 5.1 Key Services
+
+- **Insights Service**: data ingestion → categorisation → weekly delta computation
+- **Budget Engine**: challenge state machine; threshold computation
+- **Nudge Engine**: dynamic triggers; rate limiting; user preference filters
+- **Ranking Engine**: city segmentation; percentile computation; Z-score clustering
+- **Report Card Service**: weekly aggregation; narrative generation
+
+### 5.2 Data Requirements
+
+- Highly accurate categorisation (≥90% automated, manual override allowed)
+- Transaction streaming via ledger service
+- Weekly time-window aggregation
+- Real-time nudge eligibility computation
+
+### 5.3 System Goals
+
+- Low latency (under 200ms) for dashboard load
+- State consistency for challenges (idempotent writes)
+- High reliability for weekly evaluation (cron + queue backup)
+
+## 6. Measurement Framework
+
+| Goal | Metric |
+|---|---|
+| Awareness | Users who view Insights weekly |
+| Activation | Users who set challenges |
+| Engagement | Users who return midweek to track |
+| Behavioural Outcome | Reduction in category overspend |
+| Retention | Users who complete 4+ weekly cycles |
+
+We measure causally: does viewing insights → increase challenge adoption? Does challenge adoption → reduce overspend? Does reduced overspend → increase NPS or retention?
+
+## 7. Risks & Tradeoffs
+
+| Risk | Mitigation |
+|---|---|
+| Over-nudging → fatigue | 2/week limit, personalised nudge timing |
+| Benchmarking → shame | Strictly positive framing; percentile bands only |
+| Categorisation errors → distrust | Manual edit flows; reinforced ML correction |
+| Emotional overload → infantilisation | Neutral colours, mature tone, controlled animation |
+
+**Tradeoff:** Personalisation depth vs cognitive simplicity. We choose simplicity-first for V1 to build habit before complexity.
+
+## 8. Rollout Plan
+
+1. **Internal Dogfood**: validate tone, emotionality, narrative coherence
+2. **Bangalore Android (40%)**: high UPI density + budget usage
+3. **Mumbai Android (40%)**: behavioural validation across another metro
+4. **iOS Rollout**: users tend to be older; checks cross-cohort behavioural variance
+5. **Pan-India**: scale after validating habit loops
+6. **V2 Enhancements**: streaks, difficulty adjustment, cross-category challenges

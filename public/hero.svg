@@ -1,0 +1,126 @@
+<svg width="100%" viewBox="0 0 680 900" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Forest clearing</title>
+  <desc>A lush botanical forest clearing with warm golden light filtering through large tropical leaves</desc>
+
+  <!-- Warm sky base -->
+  <rect width="680" height="900" fill="#e6d890"/>
+
+  <!-- Golden light bloom -->
+  <ellipse cx="340" cy="180" rx="290" ry="230" fill="#fde68a" opacity="0.32"/>
+  <ellipse cx="340" cy="165" rx="200" ry="165" fill="#fef3c7" opacity="0.38"/>
+  <ellipse cx="340" cy="155" rx="120" ry="105" fill="#fef9e0" opacity="0.42"/>
+  <ellipse cx="340" cy="148" rx="60" ry="55" fill="#ffffff" opacity="0.28"/>
+
+  <!-- Background dark forest masses -->
+  <ellipse cx="55"  cy="290" rx="130" ry="220" fill="#223e0e" opacity="0.48"/>
+  <ellipse cx="145" cy="205" rx="110" ry="185" fill="#2b520e" opacity="0.44"/>
+  <ellipse cx="625" cy="265" rx="140" ry="230" fill="#223e0e" opacity="0.48"/>
+  <ellipse cx="535" cy="195" rx="115" ry="188" fill="#2b520e" opacity="0.44"/>
+  <ellipse cx="310" cy="95"  rx="185" ry="130" fill="#274c10" opacity="0.28"/>
+  <ellipse cx="415" cy="75"  rx="165" ry="115" fill="#32601a" opacity="0.28"/>
+
+  <!-- Large bg leaves – upper left sweeping in -->
+  <path d="M -40 50 C 90 10,  265 75,  325 245 C 262 268,  55 178, -40 50 Z" fill="#46871e"/>
+  <path d="M -40 50 C 145 138, 262 202, 325 245" stroke="#366812" stroke-width="2" fill="none" opacity="0.35"/>
+
+  <!-- Large bg leaves – upper right sweeping in -->
+  <path d="M 720 35  C 605  5,  420 88,  355 248 C 418 272, 618 158, 720 35  Z" fill="#46871e"/>
+  <path d="M 720 35  C 542 125, 418 208, 355 248" stroke="#366812" stroke-width="2" fill="none" opacity="0.35"/>
+
+  <!-- Wide leaf – left to center, mid-upper -->
+  <path d="M -25 210 C 108 135, 355 162, 428 328 C 322 368,  75 292, -25 210 Z" fill="#559c28"/>
+  <path d="M -25 210 C 185 178, 342 244, 428 328" stroke="#427818" stroke-width="1.5" fill="none" opacity="0.3"/>
+
+  <!-- Wide leaf – right to center, mid-upper -->
+  <path d="M 705 192 C 582 120, 330 148, 255 312 C 358 358, 598 272, 705 192 Z" fill="#559c28"/>
+  <path d="M 705 192 C 500 168, 342 238, 255 312" stroke="#427818" stroke-width="1.5" fill="none" opacity="0.3"/>
+
+  <!-- Central canopy leaves, catching the light -->
+  <path d="M 340  -15 C 398 62,  430 182, 396 328 C 362 348, 318 258, 340 -15 Z" fill="#68b22e"/>
+  <path d="M 340  -15 C 282 62,  252 182, 286 328 C 320 348, 362 258, 340 -15 Z" fill="#5aa025"/>
+
+  <!-- Mid-level sunlit leaves -->
+  <path d="M  35 355 C 162 292, 348 312, 408 435 C 292 474,  96 422,  35 355 Z" fill="#78c235"/>
+  <path d="M  35 355 C 202 338, 348 372, 408 435" stroke="#5a9420" stroke-width="1.5" fill="none" opacity="0.28"/>
+
+  <path d="M 645 335 C 520 278, 335 295, 275 420 C 390 464, 578 402, 645 335 Z" fill="#78c235"/>
+  <path d="M 645 335 C 482 318, 340 360, 275 420" stroke="#5a9420" stroke-width="1.5" fill="none" opacity="0.28"/>
+
+  <!-- Bright lit leaf – left -->
+  <path d="M  18 462 C 142 398, 318 420, 375 545 C 252 572,  72 522,  18 462 Z" fill="#8ad83e"/>
+  <!-- Bright lit leaf – right -->
+  <path d="M 662 445 C 538 390, 365 408, 308 532 C 430 562, 598 512, 662 445 Z" fill="#8ad83e"/>
+
+  <!-- Light dapples -->
+  <ellipse cx="195" cy="425" rx="36" ry="26" fill="#fde68a" opacity="0.22"/>
+  <ellipse cx="462" cy="398" rx="29" ry="21" fill="#fde68a" opacity="0.18"/>
+  <ellipse cx="315" cy="505" rx="42" ry="30" fill="#fef3c7" opacity="0.18"/>
+  <ellipse cx="178" cy="562" rx="24" ry="17" fill="#fde68a" opacity="0.14"/>
+  <ellipse cx="512" cy="482" rx="32" ry="23" fill="#fde68a" opacity="0.16"/>
+  <ellipse cx="342" cy="448" rx="58" ry="42" fill="#fef9e0" opacity="0.13"/>
+
+  <!-- Subtle light rays -->
+  <path d="M 305  0 L 175 510" stroke="#fde68a" stroke-width="42" stroke-linecap="round" fill="none" opacity="0.055"/>
+  <path d="M 355  0 L 342 530" stroke="#fef3c7" stroke-width="30" stroke-linecap="round" fill="none" opacity="0.065"/>
+  <path d="M 405  0 L 525 490" stroke="#fde68a" stroke-width="36" stroke-linecap="round" fill="none" opacity="0.055"/>
+
+  <!-- Ground mass -->
+  <rect x="0" y="688" width="680" height="212" fill="#294e10"/>
+  <ellipse cx="340" cy="695" rx="430" ry="58" fill="#3a7018"/>
+  <ellipse cx="340" cy="688" rx="285" ry="36" fill="#4e8a1e"/>
+
+  <!-- Fern – left -->
+  <path d="M 85 708 C 64 658, 44 608, 22 555" stroke="#375e14" stroke-width="2.5" fill="none"/>
+  <ellipse cx="58"  cy="668" rx="23" ry="8" fill="#468020" transform="rotate(-42 58 668)"/>
+  <ellipse cx="44"  cy="642" rx="21" ry="7" fill="#468020" transform="rotate(-52 44 642)"/>
+  <ellipse cx="33"  cy="616" rx="18" ry="6" fill="#468020" transform="rotate(-58 33 616)"/>
+  <ellipse cx="74"  cy="674" rx="23" ry="8" fill="#569828" transform="rotate(22 74 674)"/>
+  <ellipse cx="62"  cy="648" rx="21" ry="7" fill="#569828" transform="rotate(12 62 648)"/>
+  <ellipse cx="50"  cy="622" rx="18" ry="6" fill="#569828" transform="rotate( 6 50 622)"/>
+
+  <!-- Fern – left 2 -->
+  <path d="M 168 715 C 152 664, 135 618, 118 570" stroke="#375e14" stroke-width="2.5" fill="none"/>
+  <ellipse cx="140" cy="678" rx="24" ry="8" fill="#468020" transform="rotate(-38 140 678)"/>
+  <ellipse cx="127" cy="652" rx="22" ry="7" fill="#468020" transform="rotate(-48 127 652)"/>
+  <ellipse cx="170" cy="680" rx="24" ry="8" fill="#569828" transform="rotate(26 170 680)"/>
+  <ellipse cx="158" cy="654" rx="22" ry="7" fill="#569828" transform="rotate(16 158 654)"/>
+
+  <!-- Fern – right -->
+  <path d="M 595 702 C 616 650, 638 602, 658 555" stroke="#375e14" stroke-width="2.5" fill="none"/>
+  <ellipse cx="620" cy="660" rx="23" ry="8" fill="#468020" transform="rotate(42 620 660)"/>
+  <ellipse cx="634" cy="634" rx="21" ry="7" fill="#468020" transform="rotate(52 634 634)"/>
+  <ellipse cx="608" cy="666" rx="23" ry="8" fill="#569828" transform="rotate(-22 608 666)"/>
+  <ellipse cx="622" cy="640" rx="21" ry="7" fill="#569828" transform="rotate(-12 622 640)"/>
+
+  <!-- Ground flowers -->
+  <circle cx="122" cy="730" r="5"   fill="#f8f4e2"/>
+  <circle cx="126" cy="730" r="2.5" fill="#f5d060"/>
+  <circle cx="245" cy="724" r="4.5" fill="#ffffff"/>
+  <circle cx="249" cy="724" r="2"   fill="#f5d060"/>
+  <circle cx="362" cy="728" r="5"   fill="#f8f4e2"/>
+  <circle cx="366" cy="728" r="2.5" fill="#fde68a"/>
+  <circle cx="462" cy="722" r="4"   fill="#ffffff"/>
+  <circle cx="466" cy="722" r="2"   fill="#f5d060"/>
+  <circle cx="558" cy="727" r="5"   fill="#f8f4e2"/>
+  <circle cx="562" cy="727" r="2.5" fill="#fde68a"/>
+
+  <!-- Grass tufts -->
+  <ellipse cx="198" cy="722" rx="19" ry="8" fill="#4c8e1e" transform="rotate(-10 198 722)"/>
+  <ellipse cx="302" cy="720" rx="21" ry="8" fill="#4c8e1e" transform="rotate(  5 302 720)"/>
+  <ellipse cx="422" cy="718" rx="18" ry="7" fill="#4c8e1e" transform="rotate( -5 422 718)"/>
+  <ellipse cx="522" cy="720" rx="17" ry="7" fill="#4c8e1e" transform="rotate(  8 522 720)"/>
+
+  <!-- Foreground large dark leaves – bottom left -->
+  <path d="M -55 788 C  52 682, 225 662, 325 736 C 242 815,  58 842, -55 788 Z" fill="#1b3c0e"/>
+  <path d="M -55 788 C 125 722, 242 702, 325 736" stroke="#122a08" stroke-width="2" fill="none" opacity="0.45"/>
+  <path d="M -62 878 C  62 782, 244 752, 365 825 C 282 905,  78 922, -62 878 Z" fill="#224810"/>
+
+  <!-- Foreground large dark leaves – bottom right -->
+  <path d="M 735 768 C 628 668, 458 650, 358 726 C 440 808, 622 832, 735 768 Z" fill="#1b3c0e"/>
+  <path d="M 735 768 C 558 710, 440 690, 358 726" stroke="#122a08" stroke-width="2" fill="none" opacity="0.45"/>
+  <path d="M 742 865 C 618 768, 438 742, 318 818 C 402 898, 602 915, 742 865 Z" fill="#224810"/>
+
+  <!-- Foreground corner leaves – top left & right (dark frame) -->
+  <path d="M -52 -25 C  65 82, 148 205, 124 368 C  62 328, -18 182, -52 -25 Z" fill="#1b3c0e" opacity="0.78"/>
+  <path d="M 732 -15 C 618 92,  535 215, 558 372 C 620 330, 702 190, 732 -15 Z" fill="#1b3c0e" opacity="0.78"/>
+</svg>
