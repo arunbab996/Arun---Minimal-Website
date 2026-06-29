@@ -15,7 +15,10 @@ const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/1IY-ictcATAZNfcJajwkKCJlT7-b7SBwPl_q2RZ4ntCc/export?format=csv&gid=861814196";
 
 async function getBooks(): Promise<Book[]> {
-  const res = await fetch(SHEET_CSV_URL, { next: { revalidate: 3600 } });
+  const res = await fetch(SHEET_CSV_URL, {
+    next: { revalidate: 3600 },
+    redirect: "follow",
+  });
   const text = await res.text();
 
   const lines = text.trim().split("\n");
@@ -24,10 +27,13 @@ async function getBooks(): Promise<Book[]> {
     // parse CSV properly (handles quoted fields)
     const cols = parseCSVLine(line);
     const [title, author, cover, reading, category] = cols;
+    const coverUrl = cover?.trim();
     return {
       title: title?.trim() || "",
       author: author?.trim() || "",
-      cover: cover?.trim() || "",
+      cover: coverUrl
+        ? coverUrl
+        : `https://covers.openlibrary.org/b/title/${encodeURIComponent(title?.trim() || "")}-M.jpg`,
       status: reading?.trim().toLowerCase() === "yes" ? "Currently Reading" : undefined,
       banger: category?.trim().toLowerCase() === "banger",
     };
