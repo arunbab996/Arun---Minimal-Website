@@ -9,7 +9,9 @@ export default function BusinessCardTrigger() {
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (!e.data || typeof e.data !== "object") return;
-      if (e.data.type === "opened") setIsOpen(true);
+      // 'opening' fires before the card animation starts — expand clip immediately
+      if (e.data.type === "opening") setIsOpen(true);
+      // 'closed' fires after the 650ms tuck animation — then apply clip
       if (e.data.type === "closed") setIsOpen(false);
     }
     window.addEventListener("message", onMessage);
@@ -31,10 +33,10 @@ export default function BusinessCardTrigger() {
         border: "none",
         background: "transparent",
         zIndex: isOpen ? 50 : 30,
-        // When closed: clip to right ~260px — only the peeking card shows,
-        // and clip-path also restricts pointer-events to that area so the
-        // rest of the website stays fully interactive.
-        clipPath: isOpen ? "none" : "inset(0 0 0 calc(100% - 260px))",
+        // clip-path shows only the right ~300px when closed (accommodates hover nudge).
+        // clip-path also restricts pointer-events to that strip, so the rest of the
+        // site stays fully interactive while the card is tucked.
+        clipPath: isOpen ? "none" : "inset(0 0 0 calc(100% - 300px))",
       }}
     />
   );
