@@ -124,7 +124,7 @@ export default function Home() {
         className="fade-up mb-8"
         style={{ animationDelay: `${navCount * 0.05}s` }}
       >
-        <h1 className="hidden md:block text-[20px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
+        <h1 className="text-[20px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
         <p className="text-[17px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
       </div>
 
