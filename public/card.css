@@ -72,6 +72,11 @@
       drop-shadow(0 26px 34px rgba(0,0,0,0.32));
   }
   .card-scene.settled{ transition:transform 0.2s ease-out; }
+  /* While the rAF loop is driving the tilt it owns the motion outright. Any
+     CSS transition here would re-interpolate toward each frame's value and
+     smear the result, which is what made the tilt feel laggy. Declared after
+     .settled so it wins when both are present. */
+  .card-scene.tilting{ transition:none; }
 
   /* Closed state: the card starts tucked at the screen's right edge, mostly
      off-stage and tilted, like a card peeking out of a pocket — click it to

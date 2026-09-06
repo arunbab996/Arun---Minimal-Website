@@ -309,7 +309,12 @@
     stage.classList.remove('closed');
     stage.classList.add('is-open');
     restartAnim('opening');
-    setTimeout(()=>{ cardScene.style.transition = ''; }, 1150);
+    tiltFrozen = true;           // the reveal owns the transform until it lands
+    setTimeout(()=>{
+      cardScene.style.transition = '';
+      sceneRect = null;          // the card just moved; the cached box is stale
+      tiltFrozen = false;
+    }, 1150);
   }
   cardScene.addEventListener('click', openCard);
 
@@ -323,6 +328,8 @@
     isOpen = false;
     // Clear the hover-tilt's inline transform/vars so the tucked-position
     // CSS rule (scoped to .stage.closed) can take over cleanly.
+    stopTilt();
+    tiltFrozen = true;
     cardScene.style.transition = 'transform 0.62s cubic-bezier(0.45,0,0.15,1)';
     cardScene.style.transform = '';
     cardScene.style.removeProperty('--sx');
@@ -335,30 +342,105 @@
     setTimeout(()=>{ cardScene.style.transition = ''; }, 620);
   }
   btnClose.addEventListener('click', closeCard);
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && isOpen) closeCard();
+  });
 
   // ---------- idle tilt: mouse on desktop, device gyroscope on phones ----------
+  // The tilt eases toward a target inside a rAF loop instead of writing the
+  // pointer position straight to `transform`. Writing it directly fought the
+  // 0.2s CSS transition on .card-scene: every pointermove restarted a fresh
+  // 200ms interpolation, so the card permanently chased the cursor and never
+  // arrived. Easing per frame is frame-synced, and gives a real settle on
+  // release rather than a snap.
+  const tilt  = { x:0, y:0, tx:0, ty:0 };
+  const sheen = { x:30, y:15, tx:30, ty:15 };   // neutral matches the CSS default
+  let tiltRAF = null, tiltFrozen = false, sceneRect = null;
+
+  // Reading the box on every pointermove forced a synchronous layout per
+  // event; cache it and drop the cache when it can actually have moved.
+  function sceneBox(){
+    if(!sceneRect) sceneRect = cardScene.getBoundingClientRect();
+    return sceneRect;
+  }
+  const invalidateBox = ()=>{ sceneRect = null; };
+  window.addEventListener('resize', invalidateBox);
+  window.addEventListener('scroll', invalidateBox, {passive:true});
+
+  let tiltLast = 0;
+  function tiltFrame(now){
+    // Frame-rate independent easing. A fixed per-frame factor would settle
+    // twice as fast on a 120Hz display as on 60Hz, so the same gesture would
+    // feel different on a ProMotion screen. Deriving k from elapsed time keeps
+    // the response identical; dt is clamped so a stalled tab (background
+    // throttling) doesn't resume with one enormous jump.
+    const dt = tiltLast ? Math.min(now - tiltLast, 64) : 16.667;
+    tiltLast = now;
+    const k = 1 - Math.pow(1 - 0.16, dt / 16.667);
+    tilt.x  += (tilt.tx  - tilt.x)  * k;
+    tilt.y  += (tilt.ty  - tilt.y)  * k;
+    sheen.x += (sheen.tx - sheen.x) * k;
+    sheen.y += (sheen.ty - sheen.y) * k;
+
+    const done = Math.abs(tilt.tx - tilt.x) < 0.0008
+              && Math.abs(tilt.ty - tilt.y) < 0.0008
+              && Math.abs(sheen.tx - sheen.x) < 0.05
+              && Math.abs(sheen.ty - sheen.y) < 0.05;
+    if(done){ tilt.x = tilt.tx; tilt.y = tilt.ty; sheen.x = sheen.tx; sheen.y = sheen.ty; }
+
+    cardScene.style.transform = `rotateY(${tilt.x*18}deg) rotateX(${-tilt.y*18}deg)`;
+    cardScene.style.setProperty('--sx', `${sheen.x}%`);
+    cardScene.style.setProperty('--sy', `${sheen.y}%`);
+
+    if(done){ tiltRAF = null; cardScene.classList.remove('tilting'); return; }
+    tiltRAF = requestAnimationFrame(tiltFrame);
+  }
+  function runTilt(){
+    if(tiltRAF !== null) return;
+    tiltLast = 0;
+    cardScene.classList.add('tilting');   // hands motion to the loop, not CSS
+    tiltRAF = requestAnimationFrame(tiltFrame);
+  }
   function applyTilt(nx, ny){
-    if(!isOpen) return;
-    cardScene.style.transform = `rotateY(${nx*18}deg) rotateX(${-ny*18}deg)`;
-    cardScene.style.setProperty('--sx', `${(nx+0.5)*100}%`);
-    cardScene.style.setProperty('--sy', `${(ny+0.5)*100}%`);
+    if(!isOpen || tiltFrozen) return;
+    tilt.tx = nx; tilt.ty = ny;
+    sheen.tx = (nx+0.5)*100; sheen.ty = (ny+0.5)*100;
+    runTilt();
   }
   function releaseTilt(){
     if(!isOpen) return;
-    cardScene.style.transform = 'rotateY(0deg) rotateX(0deg)';
-    cardScene.style.setProperty('--sx', '30%');
-    cardScene.style.setProperty('--sy', '15%');
+    tilt.tx = 0; tilt.ty = 0;
+    sheen.tx = 30; sheen.ty = 15;
+    runTilt();
+  }
+  // Hard stop, for closing: leaves no inline transform behind for the tucked
+  // CSS rule to fight with.
+  function stopTilt(){
+    if(tiltRAF !== null){ cancelAnimationFrame(tiltRAF); tiltRAF = null; }
+    tiltLast = 0;
+    cardScene.classList.remove('tilting');
+    tilt.x = tilt.tx = tilt.y = tilt.ty = 0;
+    sheen.x = sheen.tx = 30; sheen.y = sheen.ty = 15;
   }
 
   // Tilt is direct manipulation (the visitor's own cursor/device drives it),
   // not autoplaying motion, so it stays on even under prefers-reduced-motion
   // — that setting is respected elsewhere, for the ambient ember particles.
   {
-    cardScene.addEventListener('mousemove', (e)=>{
-      const r = cardScene.getBoundingClientRect();
+    // Pointer events rather than mouse events, so a stylus or a precision
+    // trackpad drives the tilt too. Touch is skipped deliberately: on a phone
+    // the gyroscope below already owns the tilt, and letting a finger drive it
+    // as well made the card fight itself mid-drag.
+    cardScene.addEventListener('pointermove', (e)=>{
+      if(e.pointerType === 'touch') return;
+      const r = sceneBox();
+      if(!r.width) return;
       applyTilt((e.clientX-r.left)/r.width - 0.5, (e.clientY-r.top)/r.height - 0.5);
     });
-    cardScene.addEventListener('mouseleave', releaseTilt);
+    cardScene.addEventListener('pointerleave', (e)=>{
+      if(e.pointerType === 'touch') return;
+      releaseTilt();
+    });
 
     // Phones: tilt the card by physically tilting the device, same idea as
     // the mouse-driven version above. beta/gamma report the phone's own
@@ -392,9 +474,16 @@
       }
     };
   }
+  // Painting/burning wants a still, flat card to aim at — freeze the tilt and
+  // ease it back to neutral rather than letting the cursor swing it about.
   function settle(on){
     cardScene.classList.toggle('settled', on);
-    if(on) cardScene.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    tiltFrozen = on;
+    if(on){
+      tilt.tx = 0; tilt.ty = 0;
+      sheen.tx = 30; sheen.ty = 15;
+      runTilt();
+    }
   }
 
   // ---------- flip ----------
