@@ -2,9 +2,30 @@
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
-body {
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+@font-face {
+  font-family: 'Sunghyun Sans';
+  src: url('/fonts/SunghyunSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
+
+@font-face {
+  font-family: 'Sunghyun Sans';
+  src: url('/fonts/SunghyunSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+*, body {
+  font-family: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
 
 .scrollbar-hide {
   -ms-overflow-style: none;

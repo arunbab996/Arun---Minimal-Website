@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Nav from "./nav";
 import Providers from "./providers";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Arun Baburaj",
@@ -18,10 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased dark`} suppressHydrationWarning>
-      <body className="min-h-full bg-white text-[#111111] dark:bg-[#111111] dark:text-[#e5e5e5]">
+    <html lang="en" className="h-full antialiased dark" suppressHydrationWarning>
+      <body className="min-h-full bg-black text-[#e5e5e5]">
         <Providers>
-<div className="min-h-screen">
+          <div className="min-h-screen">
             <Nav />
             {children}
           </div>

@@ -23,7 +23,7 @@ const blocks = [
           href="https://januarycapital.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+          className="inline-flex items-center gap-1 align-middle text-white hover:underline"
         >
           <img
             src="/images/january-capital-logo.png"
@@ -39,7 +39,7 @@ const blocks = [
           href="https://www.discoveryos.xyz"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+          className="inline-flex items-center gap-1 align-middle text-white hover:underline"
         >
           <img
             src="/images/discoveryos-logo.svg"
@@ -55,7 +55,7 @@ const blocks = [
           href="https://tryspecter.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 align-middle text-blue-600 hover:underline"
+          className="inline-flex items-center gap-1 align-middle text-white hover:underline"
         >
           <img
             src="/images/specter-logo.png"
