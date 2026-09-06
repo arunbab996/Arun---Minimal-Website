@@ -283,6 +283,21 @@
   // ---------- open / close (tucked card at the screen edge) ----------
   let isOpen = false;
 
+  // Opening and closing are mutually exclusive, and a class left behind by a
+  // missed animationend (e.g. the tab was hidden, which freezes animations)
+  // would stop the next run from restarting. Clearing both and forcing a
+  // reflow before re-adding makes the animation restart unconditionally.
+  let animClearTimer;
+  function restartAnim(name){
+    clearTimeout(animClearTimer);
+    card.classList.remove('opening','closing');
+    void card.offsetWidth;
+    card.classList.add(name);
+    const done = ()=> card.classList.remove(name);
+    card.addEventListener('animationend', done, {once:true});
+    animClearTimer = setTimeout(done, 1300); // belt-and-braces
+  }
+
   function openCard(){
     if(isOpen) return;
     isOpen = true;
@@ -293,8 +308,7 @@
     cardScene.style.transition = 'transform 1.1s cubic-bezier(0.45,0,0.15,1)';
     stage.classList.remove('closed');
     stage.classList.add('is-open');
-    card.classList.add('opening');
-    card.addEventListener('animationend', ()=> card.classList.remove('opening'), {once:true});
+    restartAnim('opening');
     setTimeout(()=>{ cardScene.style.transition = ''; }, 1150);
   }
   cardScene.addEventListener('click', openCard);
@@ -309,14 +323,15 @@
     isOpen = false;
     // Clear the hover-tilt's inline transform/vars so the tucked-position
     // CSS rule (scoped to .stage.closed) can take over cleanly.
-    cardScene.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+    cardScene.style.transition = 'transform 0.62s cubic-bezier(0.45,0,0.15,1)';
     cardScene.style.transform = '';
     cardScene.style.removeProperty('--sx');
     cardScene.style.removeProperty('--sy');
     stage.classList.add('closed');
     stage.classList.remove('is-open');
-    /* Immediately: page becomes visible + interactive (the card is an artifact,
-       it shouldn't hold the page hostage while it animates home). */
+    // Mirror of the open reveal: the card spins back as it tucks away. Matches
+    // the 0.62s cardCloseSpin so the turn and the travel finish together.
+    restartAnim('closing');
     setTimeout(()=>{ cardScene.style.transition = ''; }, 620);
   }
   btnClose.addEventListener('click', closeCard);

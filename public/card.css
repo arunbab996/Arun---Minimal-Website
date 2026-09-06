@@ -78,11 +78,11 @@
      open. Hovering nudges it further into view before you commit to opening. */
   .stage.closed .card-scene{
     cursor:pointer;
-    transform:translate(46vw, -8vh) scale(0.34) rotate(8deg);
+    transform:translate(46vw, -25vh) scale(0.34) rotate(8deg);
     transition:transform 0.35s ease-out;
   }
   .stage.closed .card-scene:hover{
-    transform:translate(42vw, -8vh) scale(0.34) rotate(8deg);
+    transform:translate(42vw, -25vh) scale(0.34) rotate(8deg);
   }
   .stage.closed .toolbar,
   .stage.closed .flip-btn,
@@ -98,8 +98,17 @@
   .card.opening{
     animation:cardOpenSpin 1.1s cubic-bezier(0.45,0,0.15,1);
   }
+  @keyframes cardCloseSpin{
+    from{ transform:rotateY(0deg); }
+    to{ transform:rotateY(-360deg); }
+  }
+  /* Mirrors the open: same full turn, same curve, wound back the other way
+     so tucking reads as the reverse of the reveal rather than a plain slide. */
+  .card.closing{
+    animation:cardCloseSpin 0.62s cubic-bezier(0.45,0,0.15,1);
+  }
   @media (prefers-reduced-motion: reduce){
-    .card.opening{ animation:none; }
+    .card.opening, .card.closing{ animation:none; }
   }
 
   .card{
