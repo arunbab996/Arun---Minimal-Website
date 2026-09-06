@@ -48,15 +48,15 @@ export default function Nav() {
 
       {/* Mobile top bar */}
       <div
-        className="md:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-between px-5 h-14"
-        style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        className="md:hidden fixed top-0 inset-x-0 z-50 flex items-center px-5 h-14 gap-3"
+        style={{ background: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
-        <Link href="/" className="text-[15px] font-medium text-white" onClick={() => setOpen(false)}>Arun</Link>
+        <Link href="/" className="text-[15px] font-medium text-white" onClick={() => setOpen(false)}>Arun Baburaj</Link>
         <button onClick={() => setOpen(!open)} className="text-neutral-400 hover:text-white transition-colors p-1" aria-label="Menu">
           {open ? (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2L16 16M16 2L2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 2L16 16M16 2L2 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           ) : (
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           )}
         </button>
       </div>
