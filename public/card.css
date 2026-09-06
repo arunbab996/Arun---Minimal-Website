@@ -89,10 +89,16 @@
 
   /* Phones: the text column runs the full width, so the desktop tuck lands
      squarely on top of the copy. Tuck it into the gap on the right instead —
-     under the menu button, above where the body copy starts. */
+     beside the heading, below the fixed 56px top bar.
+
+     The vertical offset is anchored in px, not vh. The card sits centred at
+     ~53vh (50vh plus its own 6vh margin-top), so subtracting 53vh puts its
+     centre at the viewport top and the +136px places it a fixed distance
+     down. A pure vh offset drifts against the fixed-height top bar as the
+     device gets taller, which is what left it straddling the bar's divider. */
   @media (max-width:767px){
     .stage.closed .card-scene{
-      transform:translate(50vw, -40vh) scale(0.26) rotate(8deg);
+      transform:translate(50vw, calc(-53vh + 136px)) scale(0.26) rotate(8deg);
     }
   }
 
