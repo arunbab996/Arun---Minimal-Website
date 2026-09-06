@@ -293,6 +293,11 @@
     background: rgba(10, 8, 6, 0.88) !important;
   }
   .stage.embed.is-open::before { display: block; opacity: 0.3; }
+  /* Remove drop-shadow in embed open mode — it causes blur during canvas
+     repaints (Paint/Burn tools) because the filter recomposites every frame */
+  .stage.embed .card-scene {
+    filter: none !important;
+  }
 
   /* Closed position: match OG code — card peeks from the right, slightly
      off-screen, right edge about 60px past the viewport. Hover nudges it
