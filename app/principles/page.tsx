@@ -29,7 +29,7 @@ const NAV_COUNT = 6;
 
 export default function PrinciplesPage() {
   return (
-    <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
       <h1
         className="fade-up mb-10 text-[19px] font-semibold dark:text-white"
         style={{ animationDelay: `${NAV_COUNT * 0.05}s` }}
@@ -46,7 +46,7 @@ export default function PrinciplesPage() {
           >
             <span className="mt-0.5 w-5 shrink-0 text-sm font-medium text-neutral-400">{i + 1}</span>
             <div>
-              <p className="text-[15px] font-semibold text-[#1a1a1a] dark:text-[#e5e5e5]">{p.title}</p>
+              <p className="text-[19px] font-semibold text-[#1a1a1a] dark:text-[#e5e5e5]">{p.title}</p>
               <p className="mt-1 text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">{p.body}</p>
             </div>
           </li>

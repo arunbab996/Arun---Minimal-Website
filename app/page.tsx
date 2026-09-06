@@ -118,18 +118,18 @@ export default function Home() {
   const navCount = 6;
 
   return (
-    <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
       {/* Name + tagline */}
       <div
         className="fade-up mb-8"
         style={{ animationDelay: `${navCount * 0.05}s` }}
       >
         <h1 className="text-[20px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
-        <p className="mt-0.5 text-[16px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
+        <p className="mt-0.5 text-[17px] text-[#6b7280] dark:text-neutral-500">Chronically curious.</p>
       </div>
 
       {/* Bio blocks */}
-      <div className="space-y-5 text-[17px] leading-[1.75] text-[#111111] dark:text-[#d4d4d4]">
+      <div className="space-y-5 text-[18px] leading-[1.75] text-[#111111] dark:text-[#d4d4d4]">
         {blocks.map((block, i) => (
           <p
             key={i}

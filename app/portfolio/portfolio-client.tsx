@@ -95,8 +95,8 @@ function ExperimentRow({
                   {tag.label}
                 </span>
               )}
-              <p className="text-[14px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
-              <p className="mt-1 text-[13px] text-neutral-500 dark:text-neutral-400 leading-snug">{item.description}</p>
+              <p className="text-[15px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
+              <p className="mt-1 text-[19px] text-neutral-500 dark:text-neutral-400 leading-snug">{item.description}</p>
             </>
           ) : (
             <>
@@ -158,7 +158,7 @@ export default function PortfolioClient({
   const [view, setView] = useState<"list" | "grid">("list");
 
   return (
-    <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
       <div
         className="fade-up mb-10 flex items-center justify-between"
         style={{ animationDelay: `${NAV_COUNT * 0.05}s` }}
@@ -188,7 +188,7 @@ export default function PortfolioClient({
           className="fade-up mb-4 flex items-center gap-3"
           style={{ animationDelay: `${(NAV_COUNT + 1) * 0.05}s` }}
         >
-          <span className="text-[15px] font-semibold text-[#1a1a1a] dark:text-neutral-200">Product Perspectives</span>
+          <span className="text-[19px] font-semibold text-[#1a1a1a] dark:text-neutral-200">Product Perspectives</span>
           <span className="flex-1 h-px bg-neutral-200 dark:bg-neutral-700" />
           <span className="text-xs text-neutral-400">{perspectives.length}</span>
         </div>
@@ -232,13 +232,13 @@ export default function PortfolioClient({
                   style={{ animationDelay: `${(NAV_COUNT + 2 + i) * 0.05}s` }}
                 >
                   {tag && (
-                    <span className={`inline-block self-start rounded-full px-1.5 py-0.5 text-[10px] font-medium ${tag.color}`}>
+                    <span className={`inline-block self-start rounded-full px-1.5 py-0.5 text-[18px] font-medium ${tag.color}`}>
                       {tag.label}
                     </span>
                   )}
-                  <p className="text-[13px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
-                  <p className="text-[12px] text-neutral-400 dark:text-neutral-500 leading-snug">{item.description}</p>
-                  <span className="mt-auto text-[11px] text-neutral-300 group-hover:text-neutral-500 dark:text-neutral-600 dark:group-hover:text-neutral-400 transition-colors">→</span>
+                  <p className="text-[15px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] leading-snug">{item.title}</p>
+                  <p className="text-[18px] text-neutral-400 dark:text-neutral-500 leading-snug">{item.description}</p>
+                  <span className="mt-auto text-[19px] text-neutral-300 group-hover:text-neutral-500 dark:text-neutral-600 dark:group-hover:text-neutral-400 transition-colors">→</span>
                 </Link>
               );
             })}
@@ -252,7 +252,7 @@ export default function PortfolioClient({
           className="fade-up mb-4 flex items-center gap-3"
           style={{ animationDelay: `${(expStartIndex - 1) * 0.05}s` }}
         >
-          <span className="text-[15px] font-semibold text-[#1a1a1a] dark:text-neutral-200">Experiments &amp; Prototypes</span>
+          <span className="text-[19px] font-semibold text-[#1a1a1a] dark:text-neutral-200">Experiments &amp; Prototypes</span>
           <span className="flex-1 h-px bg-neutral-200 dark:bg-neutral-700" />
           <span className="text-xs text-neutral-400">{experiments.length}</span>
         </div>

@@ -83,13 +83,13 @@ function BookListRow({ book }: { book: Book }) {
         <div className="flex items-center gap-2">
           <p className="text-[13px] font-medium text-[#1a1a1a] dark:text-[#e5e5e5] truncate">{book.title}</p>
           {book.banger && (
-            <span className="shrink-0 text-[10px] font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-full px-1.5 py-0.5">Banger</span>
+            <span className="shrink-0 text-[11px] font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-full px-1.5 py-0.5">Banger</span>
           )}
           {book.status && (
-            <span className="shrink-0 text-[10px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-full px-1.5 py-0.5">{book.status}</span>
+            <span className="shrink-0 text-[11px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-full px-1.5 py-0.5">{book.status}</span>
           )}
         </div>
-        <p className="text-[11px] text-neutral-400 truncate">{book.author}</p>
+        <p className="text-[12px] text-neutral-400 truncate">{book.author}</p>
         {book.note && (
           <p className="text-[11px] text-neutral-400 dark:text-neutral-500 italic truncate mt-0.5">"{book.note}"</p>
         )}
@@ -125,7 +125,7 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
     }`;
 
   return (
-    <main className="mx-auto max-w-[620px] px-6 pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
       {/* Header row */}
       <div
         className="fade-up flex items-center justify-between mb-6"
