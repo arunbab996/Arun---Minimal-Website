@@ -88,12 +88,20 @@
   }
 
   /* Phones: the text column runs the full width, so the desktop tuck lands
-     squarely on top of the copy. Sit higher and show a smaller sliver, clear
-     of both the body text and the top bar's menu button. */
+     squarely on top of the copy. Tuck it into the gap on the right instead —
+     under the menu button, above where the body copy starts. */
   @media (max-width:767px){
     .stage.closed .card-scene{
-      transform:translate(52vw, -34vh) scale(0.26) rotate(8deg);
+      transform:translate(50vw, -40vh) scale(0.26) rotate(8deg);
     }
+  }
+
+  /* Mobile menu is open: the card is a fixed overlay above it, so get it
+     fully out of the way rather than letting it hover over the page list. */
+  html.menu-open .stage.closed{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
   }
   .stage.closed .toolbar,
   .stage.closed .flip-btn,

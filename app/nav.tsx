@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const nav = [
   { label: "Home",        href: "/"            },
@@ -15,6 +15,14 @@ const nav = [
 export default function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // The business card is a fixed overlay that sits above the mobile menu, so
+  // it would otherwise float over the menu's list of pages. Flag the open menu
+  // on <html> and let the card's stylesheet take itself out of the way.
+  useEffect(() => {
+    document.documentElement.classList.toggle("menu-open", open);
+    return () => document.documentElement.classList.remove("menu-open");
+  }, [open]);
 
   const glassStyle = {
     background: "linear-gradient(160deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 100%)",
