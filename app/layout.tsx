@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "./nav";
 import Providers from "./providers";
+import BusinessCardTrigger from "./components/business-card-trigger";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
           <div className="min-h-screen">
             <Nav />
             {children}
+            <BusinessCardTrigger />
           </div>
         </Providers>
       </body>
