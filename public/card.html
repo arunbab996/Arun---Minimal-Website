@@ -689,7 +689,7 @@
 
   // ---------- idle tilt: mouse on desktop, device gyroscope on phones ----------
   function applyTilt(nx, ny){
-    if(!isOpen) return;
+    if(!isOpen || isEmbed) return; /* 3D texture sampling causes blur in iframe */
     cardScene.style.transform = `rotateY(${nx*18}deg) rotateX(${-ny*18}deg)`;
     cardScene.style.setProperty('--sx', `${(nx+0.5)*100}%`);
     cardScene.style.setProperty('--sy', `${(ny+0.5)*100}%`);
@@ -991,7 +991,8 @@
   setFlipped(false);
 
   // Detect embed mode
-  if (new URLSearchParams(location.search).get('embed') === '1') {
+  const isEmbed = new URLSearchParams(location.search).get('embed') === '1';
+  if (isEmbed) {
     document.documentElement.classList.add('embed-mode');
     stage.classList.add('embed');
   }
