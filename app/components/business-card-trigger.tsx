@@ -2,35 +2,51 @@
 
 import { useEffect, useRef, useState } from "react";
 
+// closed  → clipped to a strip on the right, card peeks out, site interactive
+// open    → full viewport, card interactive, site behind the scrim
+// closing → full viewport so the card can fly home, but the site is already
+//           visible and clickable again (the card is an artifact, not a modal)
+type Phase = "closed" | "open" | "closing";
+
 export default function BusinessCardTrigger() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [phase, setPhase] = useState<Phase>("closed");
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
+      if (e.source !== iframeRef.current?.contentWindow) return;
       if (!e.data || typeof e.data !== "object") return;
-      if (e.data.type === "opening") setIsOpen(true);
-      if (e.data.type === "closed") setIsOpen(false);
+      if (e.data.type === "opening") setPhase("open");
+      if (e.data.type === "closing") setPhase("closing");
+      if (e.data.type === "closed") setPhase("closed");
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
   return (
-    // Wrapper clips the iframe via overflow:hidden at the layout level,
-    // avoiding the clip-path compositing/DPR-reduction issue that caused blur.
     <div
       style={{
         position: "fixed",
         top: 0,
         right: 0,
-        // When closed: only the right 300px is visible (card peeks through).
-        // When open: expands to full viewport.
-        width: isOpen ? "100vw" : "300px",
+        // Clipped to a strip when closed; full-width while open *and* closing
+        // so the card has room to animate back to the edge.
+        // Full-bleed only while open; during "closing" it animates back to the
+        // strip, which is what performs the wipe.
+        width: phase === "open" ? "100vw" : "300px",
         height: "100dvh",
-        zIndex: isOpen ? 50 : 30,
         overflow: "hidden",
-        pointerEvents: isOpen ? "auto" : "none",
+        zIndex: phase === "open" ? 50 : 30,
+        // The instant the card starts leaving, the page is clickable again.
+        pointerEvents: phase === "open" ? "auto" : "none",
+        // On close the wrapper shrinks back to the strip, wiping the page into
+        // view left-to-right while the card flies home inside it. Front-loaded
+        // easing means the text column is readable within ~150ms.
+        transition:
+          phase === "closing"
+            ? "width 620ms cubic-bezier(0.16, 1, 0.3, 1)"
+            : "none",
       }}
     >
       <iframe
@@ -39,17 +55,17 @@ export default function BusinessCardTrigger() {
         title="Business Card"
         allow="gyroscope"
         style={{
-          // Always full-viewport size so vw/vh units inside card.html are correct.
           position: "absolute",
           top: 0,
           right: 0,
+          // Always full-viewport so vw/vh inside card.html stay correct.
           width: "100vw",
           height: "100dvh",
           border: "none",
           background: "transparent",
-          // Re-enable pointer events on the iframe itself (parent div controls
-          // the visible/interactive area via overflow + width).
-          pointerEvents: "auto",
+          // The card itself must stay clickable in closed + open phases; during
+          // closing nothing inside should swallow clicks meant for the page.
+          pointerEvents: phase === "closing" ? "none" : "auto",
         }}
       />
     </div>

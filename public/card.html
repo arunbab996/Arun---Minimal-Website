@@ -92,6 +92,13 @@
     pointer-events:none;
     transition:opacity 0.25s ease;
   }
+  .stage.embed .card.opening{
+    animation:cardOpenSpinEmbed 0.85s cubic-bezier(0.33, 0.9, 0.25, 1) !important;
+  }
+  @keyframes cardOpenSpinEmbed{
+    from{ transform:rotateY(-190deg); }
+    to{ transform:rotateY(0deg); }
+  }
   @keyframes cardOpenSpin{
     from{ transform:rotateY(0deg); }
     to{ transform:rotateY(360deg); }
@@ -297,7 +304,18 @@
      repaints (Paint/Burn tools) because the filter recomposites every frame */
   .stage.embed .card-scene {
     filter: none !important;
+    /* will-change promotes the layer and rasterizes it ONCE at base scale;
+       every subsequent 3D tilt just resamples that bitmap => blur. Letting
+       the browser re-rasterize per frame keeps canvas text crisp on tilt. */
+    will-change: auto !important;
   }
+  /* Opaque black matches the site background, so the shrinking wrapper reads
+     as a clean wipe rather than a visible panel sliding away. */
+  .stage.embed, html.embed-mode, html.embed-mode body {
+    background: #000 !important;
+  }
+  /* Scrim fades out fast on close so the card reads as lifting off the page. */
+  .stage.embed { transition: background 0.25s ease; }
 
   /* Closed position: match OG code — card peeks from the right, slightly
      off-screen, right edge about 60px past the viewport. Hover nudges it
@@ -364,7 +382,7 @@
 <script>
 (function(){
   const CARD_W = 680, CARD_H = 400;
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const DPR = Math.min((window.devicePixelRatio || 1) * 1.5, 3);
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const stage = document.getElementById('stage');
@@ -679,17 +697,20 @@
     cardScene.style.removeProperty('--sy');
     stage.classList.add('closed');
     stage.classList.remove('is-open');
-    /* Delay clip-path change until after the tuck animation finishes */
+    /* Immediately: page becomes visible + interactive (the card is an artifact,
+       it shouldn't hold the page hostage while it animates home). */
+    notifyParent('closing');
+    /* Once the card is actually back in its pocket, the parent re-clips. */
     setTimeout(()=>{
       notifyParent('closed');
       cardScene.style.transition = '';
-    }, 650);
+    }, 620);
   }
   btnClose.addEventListener('click', closeCard);
 
   // ---------- idle tilt: mouse on desktop, device gyroscope on phones ----------
   function applyTilt(nx, ny){
-    if(!isOpen || isEmbed) return; /* 3D texture sampling causes blur in iframe */
+    if(!isOpen) return;
     cardScene.style.transform = `rotateY(${nx*18}deg) rotateX(${-ny*18}deg)`;
     cardScene.style.setProperty('--sx', `${(nx+0.5)*100}%`);
     cardScene.style.setProperty('--sy', `${(ny+0.5)*100}%`);
