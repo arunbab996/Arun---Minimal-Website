@@ -16,46 +16,26 @@ export default function BusinessCardTrigger() {
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
-  function openCard() {
-    iframeRef.current?.contentWindow?.postMessage({ type: "open" }, "*");
-    setIsOpen(true);
-  }
-
   return (
-    <>
-      {/* Full-screen iframe — transparent when card is closed */}
-      <iframe
-        ref={iframeRef}
-        src="/card.html?embed=1"
-        title="Business Card"
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100vw",
-          height: "100dvh",
-          border: "none",
-          background: "transparent",
-          zIndex: isOpen ? 50 : 30,
-          pointerEvents: isOpen ? "auto" : "none",
-        }}
-        allow="gyroscope"
-      />
-
-      {/* Clickable overlay on the right edge — triggers card open when closed */}
-      {!isOpen && (
-        <div
-          onClick={openCard}
-          style={{
-            position: "fixed",
-            right: 0,
-            top: 0,
-            width: "180px",
-            height: "100dvh",
-            zIndex: 31,
-            cursor: "pointer",
-          }}
-        />
-      )}
-    </>
+    <iframe
+      ref={iframeRef}
+      src="/card.html?embed=1"
+      title="Business Card"
+      allow="gyroscope"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100dvh",
+        border: "none",
+        background: "transparent",
+        zIndex: isOpen ? 50 : 30,
+        // When closed: clip to right ~260px — only the peeking card shows,
+        // and clip-path also restricts pointer-events to that area so the
+        // rest of the website stays fully interactive.
+        clipPath: isOpen ? "none" : "inset(0 0 0 calc(100% - 260px))",
+      }}
+    />
   );
 }

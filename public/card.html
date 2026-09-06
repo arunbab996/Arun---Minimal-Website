@@ -282,13 +282,18 @@
     .flip-btn.tool{ padding:8px; }
   }
 
-  /* Embed mode: transparent bg when closed so the parent page shows through */
+  /* Embed mode: black bg when closed (matches parent page), full bg when open */
   html.embed-mode,
-  html.embed-mode body { background: transparent !important; }
-  .stage.embed { background: transparent !important; }
+  html.embed-mode body { background: #000 !important; }
+  .stage.embed { background: #000 !important; }
   .stage.embed::before { display: none; }
-  .stage.embed.closed { background: transparent !important; pointer-events: none; }
-  .stage.embed.closed .card-scene { pointer-events: auto; }
+  /* When card is open in embed mode, restore the atmospheric stage background */
+  .stage.embed.is-open {
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 38%, rgba(255,225,180,0.10), transparent 70%),
+      radial-gradient(ellipse 120% 90% at 50% 50%, var(--stage) 0%, var(--stage-edge) 100%) !important;
+  }
+  .stage.embed.is-open::before { display: block; }
 
 </style>
 
@@ -633,6 +638,7 @@
     // Matches the 1.1s spin duration so both finish together as one motion.
     cardScene.style.transition = 'transform 1.1s cubic-bezier(0.45,0,0.15,1)';
     stage.classList.remove('closed');
+    stage.classList.add('is-open');
     notifyParent('opened');
     card.classList.add('opening');
     card.addEventListener('animationend', ()=> card.classList.remove('opening'), {once:true});
@@ -655,6 +661,7 @@
     cardScene.style.removeProperty('--sx');
     cardScene.style.removeProperty('--sy');
     stage.classList.add('closed');
+    stage.classList.remove('is-open');
     notifyParent('closed');
     setTimeout(()=>{ cardScene.style.transition = ''; }, 650);
   }
