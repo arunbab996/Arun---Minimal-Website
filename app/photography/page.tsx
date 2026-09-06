@@ -1,6 +1,5 @@
 import PhotographyClient from "./photography-client";
 
-export const metadata = { title: "Photography — Arun Baburaj" };
 
 const photos = [
   { url: "https://res.cloudinary.com/dp67k01qy/image/upload/f_auto,q_auto/v1765963841/IMG_4430_ykc7eh.heic", loc: "Paris, France", date: "March 2025" },

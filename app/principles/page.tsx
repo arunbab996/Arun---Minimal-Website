@@ -1,6 +1,5 @@
 import Footer from "../footer";
 
-export const metadata = { title: "Principles — Arun Baburaj" };
 
 const principles = [
   {

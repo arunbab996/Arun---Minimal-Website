@@ -2,7 +2,6 @@ import PortfolioClient from "./portfolio-client";
 import { getPostBySlug } from "@/lib/mdx";
 import { experiments } from "./data";
 
-export const metadata = { title: "Portfolio — Arun Baburaj" };
 
 const PERSPECTIVE_ORDER = [
   "specter-talent",

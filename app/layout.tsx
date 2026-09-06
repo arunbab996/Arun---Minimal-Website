@@ -4,6 +4,8 @@ import Providers from "./providers";
 import BusinessCardTrigger from "./components/business-card-trigger";
 import "./globals.css";
 
+// The tab always reads "Arun Baburaj" — this is the only place a title is set.
+// Adding `metadata`/`generateMetadata` to a page would override it for that route.
 export const metadata: Metadata = {
   title: "Arun Baburaj",
   description:

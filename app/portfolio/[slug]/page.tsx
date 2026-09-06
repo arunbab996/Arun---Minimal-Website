@@ -9,11 +9,6 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
-  return { title: post ? `${post.title} — Arun Baburaj` : "Not found" };
-}
 
 export default async function PerspectivePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

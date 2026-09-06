@@ -1,6 +1,5 @@
 import BookshelfClient from "./bookshelf-client";
 
-export const metadata = { title: "Bookshelf — Arun Baburaj" };
 
 export type Book = {
   title: string;
