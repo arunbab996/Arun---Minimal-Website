@@ -294,16 +294,17 @@
   }
   .stage.embed.is-open::before { display: block; opacity: 0.3; }
 
-  /* Closed position: right edge of card flush with viewport right edge.
-     card half-width ≈ min(88vw,680px)*0.34/2 ≈ 116px at desktop. */
+  /* Closed position: match OG code — card peeks from the right, slightly
+     off-screen, right edge about 60px past the viewport. Hover nudges it
+     left (more card visible) but keeps it anchored to the right edge. */
   .stage.embed.closed .card-scene {
     cursor: pointer;
-    transform: translate(calc(50vw - 116px), -8vh) scale(0.34) rotate(8deg) !important;
+    transform: translate(46vw, -8vh) scale(0.34) rotate(8deg) !important;
     transition: transform 0.35s ease-out !important;
-    filter: none !important; /* remove drop-shadow at small scale to avoid blur */
+    filter: none !important;
   }
   .stage.embed.closed .card-scene:hover {
-    transform: translate(calc(46vw - 116px), -8vh) scale(0.34) rotate(8deg) !important;
+    transform: translate(42vw, -8vh) scale(0.34) rotate(8deg) !important;
   }
 
 </style>
