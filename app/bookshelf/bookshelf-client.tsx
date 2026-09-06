@@ -166,11 +166,11 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
             <p className="text-sm text-neutral-400">No books found.</p>
           ) : view === "grid" ? (
             <div className="flex flex-wrap gap-4">
-              {filtered.map((book) => <BookGridCard key={book.title} book={book} />)}
+              {filtered.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
             </div>
           ) : (
             <div>
-              {filtered.map((book) => <BookListRow key={book.title} book={book} />)}
+              {filtered.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}
             </div>
           )}
         </section>
@@ -191,10 +191,10 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {currentlyReading.map((book) => <BookGridCard key={book.title} book={book} />)}
+                    {currentlyReading.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
                   </div>
                 ) : (
-                  <div>{currentlyReading.map((book) => <BookListRow key={book.title} book={book} />)}</div>
+                  <div>{currentlyReading.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
                 )}
               </div>
             </section>
@@ -215,10 +215,10 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {bangers.map((book) => <BookGridCard key={book.title} book={book} />)}
+                    {bangers.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
                   </div>
                 ) : (
-                  <div>{bangers.map((book) => <BookListRow key={book.title} book={book} />)}</div>
+                  <div>{bangers.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
                 )}
               </div>
             </section>
@@ -239,10 +239,10 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {rest.map((book) => <BookGridCard key={book.title} book={book} />)}
+                    {rest.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
                   </div>
                 ) : (
-                  <div>{rest.map((book) => <BookListRow key={book.title} book={book} />)}</div>
+                  <div>{rest.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
                 )}
               </div>
             </section>

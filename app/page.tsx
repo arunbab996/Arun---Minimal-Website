@@ -9,7 +9,7 @@ const blocks = [
       <>
         I&apos;m a Product Manager, Researcher, and Generalist. Building
         software at the intersection of{" "}
-        <a href="#" className="text-blue-600 hover:underline">AI</a>
+        <a href="#" className="text-white hover:underline">AI</a>
         , Venture Capital, and Human Behavior.
       </>
     ),
@@ -86,7 +86,7 @@ const blocks = [
     content: (
       <>
         Before that, I&apos;ve worked at the intersection of{" "}
-        <a href="#" className="text-blue-600 hover:underline">behavioral science</a>{" "}
+        <a href="#" className="text-white hover:underline">behavioral science</a>{" "}
         and product strategy, trying to understand why people do what they do,
         and building things that meet them there.
       </>
@@ -97,7 +97,7 @@ const blocks = [
     content: (
       <>
         I also{" "}
-        <a href="#" className="text-blue-600 hover:underline">write</a>{" "}
+        <a href="#" className="text-white hover:underline">write</a>{" "}
         about ideas at the edges of AI, cognition, and the future of work.
         Occasionally I make things that have no business plan.
       </>
