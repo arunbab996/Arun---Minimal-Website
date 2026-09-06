@@ -17,6 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full antialiased dark" suppressHydrationWarning>
+      <head>
+        {/* Typefaces the business card canvas draws with */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+        />
+      </head>
       <body className="min-h-full bg-black text-[#e5e5e5]">
         <Providers>
           <div className="min-h-screen">

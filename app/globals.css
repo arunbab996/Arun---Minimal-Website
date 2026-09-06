@@ -22,7 +22,9 @@
   --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-*, body {
+/* #stage is the business card; it sets EB Garamond / IBM Plex Mono
+   deliberately and must not be forced onto the site font. */
+*:not(#stage):not(#stage *), body {
   font-family: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
