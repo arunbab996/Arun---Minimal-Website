@@ -38,6 +38,17 @@
   display: none;
 }
 
+/* Home only: hide the scrollbar chrome. The page still scrolls — this just
+   drops the gutter, which is visually loud against the pitch-black layout. */
+html:has(main[data-page="home"]) {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html:has(main[data-page="home"])::-webkit-scrollbar,
+html:has(main[data-page="home"]) body::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;

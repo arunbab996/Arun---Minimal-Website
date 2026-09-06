@@ -118,7 +118,10 @@ export default function Home() {
   const navCount = 6;
 
   return (
-    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
+    <main
+      data-page="home"
+      className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20"
+    >
       {/* Name + tagline */}
       <div
         className="fade-up mb-8"

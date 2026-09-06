@@ -81,8 +81,19 @@
     transform:translate(46vw, -25vh) scale(0.34) rotate(8deg);
     transition:transform 0.35s ease-out;
   }
-  .stage.closed .card-scene:hover{
-    transform:translate(42vw, -25vh) scale(0.34) rotate(8deg);
+  @media (hover:hover){
+    .stage.closed .card-scene:hover{
+      transform:translate(42vw, -25vh) scale(0.34) rotate(8deg);
+    }
+  }
+
+  /* Phones: the text column runs the full width, so the desktop tuck lands
+     squarely on top of the copy. Sit higher and show a smaller sliver, clear
+     of both the body text and the top bar's menu button. */
+  @media (max-width:767px){
+    .stage.closed .card-scene{
+      transform:translate(52vw, -34vh) scale(0.26) rotate(8deg);
+    }
   }
   .stage.closed .toolbar,
   .stage.closed .flip-btn,
@@ -290,8 +301,14 @@
     .flip-btn.tool{ padding:8px; }
   }
 
-  
-  /* Closed position: match OG code — card peeks from the right, slightly
-     off-screen, right edge about 60px past the viewport. Hover nudges it
-     left (more card visible) but keeps it anchored to the right edge. */
+  /* Touch: 32px is below the ~44px comfortable tap target, and there is no
+     cursor to aim with. Grow the chrome and give the tools real hit area. */
+  @media (hover:none){
+    .close-btn{ width:44px; height:44px; }
+    .close-btn svg{ width:18px; height:18px; }
+    .tool{ min-width:44px; min-height:44px; }
+    .flip-btn.tool{ min-width:44px; min-height:44px; }
+  }
+
+
 
