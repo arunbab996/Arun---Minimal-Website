@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { playClick } from "./click-sound";
 
 const nav = [
   { label: "Home",        href: "/"            },
@@ -43,6 +44,7 @@ export default function Nav() {
             <Link
               key={item.label}
               href={item.href}
+              onClick={() => playClick()}
               className="fade-up relative px-3 py-1 rounded-full text-[17px] transition-colors"
               style={{ animationDelay: `${i * 0.05}s`, ...(active ? glassStyle : {}) }}
             >
@@ -81,7 +83,7 @@ export default function Nav() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => { playClick(); setOpen(false); }}
                   className={`py-4 text-[22px] transition-colors border-b border-white/5 ${
                     active ? "text-white font-medium" : "text-neutral-500"
                   }`}
