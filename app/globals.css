@@ -175,3 +175,59 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
 @media (prefers-reduced-motion: reduce) {
   .lightbox-img { animation: none; }
 }
+
+/* ── Liquid glass ──────────────────────────────────────────────────────────
+   The base every browser gets. Layered rather than a single flat fill: a
+   top-lit gradient body, a bright hairline along the top edge where light
+   catches, a darker rim below, and an inner highlight just inside the border.
+   That stack is what reads as thickness — a single translucent fill and one
+   border reads as a flat panel.
+
+   `backdrop-filter` is declared twice on purpose. The refractive version
+   (SVG url() filter, applied inline by useLiquidGlass) is Chromium-only;
+   Safari and Firefox drop a declaration they cannot parse and fall back to
+   this blur/saturate, which still looks like glass. */
+.liquid-glass {
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  backdrop-filter: blur(12px) saturate(1.7);
+  -webkit-backdrop-filter: blur(12px) saturate(1.7);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.42);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),      /* light catching the top rim */
+    inset 0 -1px 1px rgba(255, 255, 255, 0.06),   /* faint bounce off the bottom */
+    inset 0 0 12px rgba(255, 255, 255, 0.05),     /* body glow, suggests depth */
+    0 4px 18px rgba(0, 0, 0, 0.35),
+    0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* A specular sheen across the upper half, brightest at the top-left, the way a
+   curved surface catches a light source. */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.05) 28%,
+    rgba(255, 255, 255, 0) 55%
+  );
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .liquid-glass {
+    background: rgba(38, 38, 38, 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

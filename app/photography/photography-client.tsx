@@ -169,17 +169,7 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
 
           {/* Caption: one glass pill, matching the nav's treatment, rather than
               bare text floating on the backdrop. */}
-          <div
-            className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 pointer-events-none flex items-center gap-3 rounded-full px-4 py-2"
-            style={{
-              background: "linear-gradient(160deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 100%)",
-              backdropFilter: "blur(20px) saturate(180%)",
-              WebkitBackdropFilter: "blur(20px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              borderTopColor: "rgba(255,255,255,0.4)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 20px rgba(0,0,0,0.45)",
-            }}
-          >
+          <div className="liquid-glass absolute bottom-6 left-1/2 z-20 -translate-x-1/2 pointer-events-none flex items-center gap-3 rounded-full px-4 py-2">
             <span className="text-[13px] font-medium text-white whitespace-nowrap">{photos[lightbox].loc}</span>
             <span className="h-3 w-px bg-white/25" />
             <span className="text-[12px] text-white/60 whitespace-nowrap">{photos[lightbox].date}</span>
