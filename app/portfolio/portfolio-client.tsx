@@ -61,7 +61,22 @@ const SCREENSHOTS: Record<string, string> = {
   "EquiParser":                    "/images/experiments/equiparser.webp",
 };
 
-const PREVIEW_URLS = Object.values(SCREENSHOTS);
+// Perspectives are internal posts, so their preview is a downscaled hero from
+// the post's own images rather than a site screenshot.
+const PERSPECTIVE_PREVIEWS: Record<string, string> = {
+  "specter-talent":              "/images/previews/specter-talent.webp",
+  "intent-driven-rental-search": "/images/previews/intent-driven-rental-search.webp",
+  "homehunter":                  "/images/previews/homehunter.webp",
+  "mymind":                      "/images/previews/mymind.webp",
+  "dunzo-aov-optimization":      "/images/previews/dunzo-aov-optimization.webp",
+  "jupiter-app-gamification":    "/images/previews/jupiter-app-gamification.webp",
+  "swiggy-bulk-delivery":        "/images/previews/swiggy-bulk-delivery.webp",
+};
+
+const PREVIEW_URLS = [
+  ...Object.values(SCREENSHOTS),
+  ...Object.values(PERSPECTIVE_PREVIEWS),
+];
 
 function ExperimentRow({
   item,
@@ -204,6 +219,12 @@ export default function PortfolioClient({
                 <Link
                   key={item.slug}
                   href={`/portfolio/${item.slug}`}
+                  onMouseEnter={(e) => {
+                    const img = PERSPECTIVE_PREVIEWS[item.slug];
+                    if (img) preview.show(img, `heyabc.xyz/portfolio/${item.slug}`, e);
+                  }}
+                  onMouseMove={(e) => PERSPECTIVE_PREVIEWS[item.slug] && preview.move(e)}
+                  onMouseLeave={() => preview.hide()}
                   className="fade-up group flex items-start justify-between gap-4 border-b border-neutral-100 dark:border-neutral-800 py-4 hover:bg-neutral-200 dark:hover:bg-neutral-700 px-3 -mx-3 rounded-lg transition-colors"
                   style={{ animationDelay: `${(NAV_COUNT + 2 + i) * 0.05}s` }}
                 >
@@ -231,6 +252,12 @@ export default function PortfolioClient({
                 <Link
                   key={item.slug}
                   href={`/portfolio/${item.slug}`}
+                  onMouseEnter={(e) => {
+                    const img = PERSPECTIVE_PREVIEWS[item.slug];
+                    if (img) preview.show(img, `heyabc.xyz/portfolio/${item.slug}`, e);
+                  }}
+                  onMouseMove={(e) => PERSPECTIVE_PREVIEWS[item.slug] && preview.move(e)}
+                  onMouseLeave={() => preview.hide()}
                   className="fade-up group flex flex-col gap-1.5 rounded-lg border border-neutral-100 dark:border-neutral-800 p-3 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors"
                   style={{ animationDelay: `${(NAV_COUNT + 2 + i) * 0.05}s` }}
                 >
