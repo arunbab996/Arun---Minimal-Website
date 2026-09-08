@@ -72,6 +72,10 @@ const blocks = [
   },
   {
     type: "bio",
+    content: <>Currently building everyday with agents.</>,
+  },
+  {
+    type: "bio",
     content: (
       <>
         I&apos;ve spent time across early-stage startups and research
