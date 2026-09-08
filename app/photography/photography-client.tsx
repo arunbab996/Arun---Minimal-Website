@@ -24,6 +24,7 @@ function thumbSrcSet(url: string) {
 
 export default function PhotographyClient({ photos }: { photos: Photo[] }) {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const isOpen = lightbox !== null;
 
   const prev = useCallback(() => {
     setLightbox((i) => (i === null ? null : (i - 1 + photos.length) % photos.length));
@@ -48,9 +49,30 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
   // would float over the photo. Flag it on <html> and let the card's stylesheet
   // take itself out of the way, the same way the mobile menu does.
   useEffect(() => {
-    document.documentElement.classList.toggle("overlay-open", lightbox !== null);
+    document.documentElement.classList.toggle("overlay-open", isOpen);
     return () => document.documentElement.classList.remove("overlay-open");
-  }, [lightbox]);
+  }, [isOpen]);
+
+  // Lock the page while the lightbox is open. It is a fixed overlay, so the
+  // page behind stayed scrollable — you could wheel through the whole grid
+  // underneath and land somewhere else entirely when you closed it.
+  //
+  // Removing the scrollbar would let the page reflow into the freed width, so
+  // its exact width is added back as padding for the duration.
+  useEffect(() => {
+    if (!isOpen) return;
+    const root = document.documentElement;
+    const gutter = window.innerWidth - root.clientWidth;
+    const prevOverflow = root.style.overflow;
+    const prevPadding = root.style.paddingRight;
+    // On the root element: its overflow is what propagates to the viewport.
+    root.style.overflow = "hidden";
+    if (gutter > 0) root.style.paddingRight = `${gutter}px`;
+    return () => {
+      root.style.overflow = prevOverflow;
+      root.style.paddingRight = prevPadding;
+    };
+  }, [isOpen]);
 
   // Arrow-keying through the set should not wait on a download each time.
   useEffect(() => {
@@ -147,7 +169,7 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
 
       {lightbox !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-black/95 backdrop-blur-sm"
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
