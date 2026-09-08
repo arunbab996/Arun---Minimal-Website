@@ -27,7 +27,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
         />
       </head>
-      <body className="min-h-full bg-black text-[#e5e5e5]">
+      {/* Extensions (Grammarly and friends) inject attributes onto <body>
+          before React hydrates, which reads as a mismatch. This suppresses
+          only this element's own attributes, not its subtree, so genuine
+          mismatches inside the app still surface. */}
+      <body className="min-h-full bg-black text-[#e5e5e5]" suppressHydrationWarning>
         <Providers>
           <div className="min-h-screen">
             <Nav />
