@@ -85,17 +85,6 @@ const blocks = [
     type: "bio",
     content: (
       <>
-        Before that, I&apos;ve worked at the intersection of{" "}
-        <a href="#" className="text-white hover:underline">behavioral science</a>{" "}
-        and product strategy, trying to understand why people do what they do,
-        and building things that meet them there.
-      </>
-    ),
-  },
-  {
-    type: "bio",
-    content: (
-      <>
         I also{" "}
         <a href="#" className="text-white hover:underline">write</a>{" "}
         about ideas at the edges of AI, cognition, and the future of work.
