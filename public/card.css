@@ -107,9 +107,11 @@
     }
   }
 
-  /* Mobile menu is open: the card is a fixed overlay above it, so get it
-     fully out of the way rather than letting it hover over the page list. */
-  html.menu-open .stage.closed{
+  /* Something is covering the page — the mobile menu, or the photo lightbox.
+     The card is a fixed overlay above both, so get it out of the way rather
+     than letting it float over them. */
+  html.menu-open .stage.closed,
+  html.overlay-open .stage.closed{
     opacity:0;
     pointer-events:none;
     transition:opacity 0.2s ease;
