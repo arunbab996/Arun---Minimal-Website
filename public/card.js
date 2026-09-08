@@ -301,7 +301,6 @@
   function openCard(){
     if(isOpen) return;
     isOpen = true;
-    if(window.askMotionPermission) window.askMotionPermission();
     // Slower, deliberate motion for this one reveal — swapped back to the
     // snappy hover-tilt duration once it settles (see the timeout below).
     // Matches the 1.1s spin duration so both finish together as one motion.
@@ -442,37 +441,10 @@
       releaseTilt();
     });
 
-    // Phones: tilt the card by physically tilting the device, same idea as
-    // the mouse-driven version above. beta/gamma report the phone's own
-    // pitch/roll in degrees; 45deg beta is roughly how far back most people
-    // hold a phone, so that's treated as the neutral/centered position.
-    function handleOrientation(e){
-      if(e.beta==null || e.gamma==null) return;
-      const nx = Math.max(-0.5, Math.min(0.5, e.gamma/45));
-      const ny = Math.max(-0.5, Math.min(0.5, (e.beta-45)/45));
-      applyTilt(nx, ny);
-    }
-    function enableMotion(){
-      window.addEventListener('deviceorientation', handleOrientation);
-    }
-    let motionAsked = false;
-    window.askMotionPermission = function(){
-      if(motionAsked) return;
-      motionAsked = true;
-      if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function'){
-        // iOS only grants this from a direct user gesture. Calling it from a
-        // separate document-wide pointerdown listener raced against the tap
-        // that opens the card — the native permission sheet interrupting the
-        // same touch gesture could eat the pending click, so the card never
-        // opened. Calling it here, inside the click handler that opens the
-        // card, keeps it on the same gesture instead of a competing one.
-        DeviceOrientationEvent.requestPermission().then(state=>{
-          if(state === 'granted') enableMotion();
-        }).catch(()=>{});
-      } else if(window.DeviceOrientationEvent){
-        enableMotion();
-      }
-    };
+    // No gyroscope tilt. Reading device orientation on iOS requires a native
+    // "Would Like to Access Motion and Orientation" permission prompt, which
+    // is a jarring thing to throw at someone for a decorative tilt on a
+    // business card. The card still flips, paints, burns and shreds on touch.
   }
   // Painting/burning wants a still, flat card to aim at — freeze the tilt and
   // ease it back to neutral rather than letting the cursor swing it about.
@@ -598,7 +570,9 @@
       if(!activeTool) return;
       drawing = true;
       settle(true);
-      canvas.setPointerCapture(e.pointerId);
+      // Capture keeps the stroke alive if the finger leaves the canvas, but it
+      // throws if the pointer is already gone; that must not abort the stroke.
+      try { canvas.setPointerCapture(e.pointerId); } catch {}
       handleMove(e, canvas);
     });
     canvas.addEventListener('pointermove', (e)=>{

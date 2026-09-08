@@ -183,6 +183,22 @@
     touch-action:none;
   }
 
+  /* iOS fires its own text-selection and callout UI on a press-and-hold, which
+     is exactly the gesture the Burn tool uses — the magnifier would hijack the
+     press and the stroke never landed. Dragging to paint could also start a
+     selection. Suppressing both leaves the gestures to the card. */
+  .stage{
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    user-select:none;
+  }
+
+  /* manipulation drops the double-tap-to-zoom wait, so the tools respond on
+     the first tap rather than feeling laggy. */
+  .tool, .close-btn{
+    touch-action:manipulation;
+  }
+
   .sheen{
     position:absolute;
     inset:0;
@@ -313,7 +329,10 @@
   /* Narrow phones: four labeled buttons plus Flip don't all fit comfortably,
      so drop to icon-only chrome — the title attribute still gives a label
      on long-press/hover, and the shapes are distinct enough at a glance. */
-  @media (max-width:400px){
+  /* Icon-only only on genuinely tiny screens. At 400px this kicked in on
+     ordinary phones, leaving four unlabelled glyphs where you could not tell
+     burn from shred — the labels fit comfortably well below that. */
+  @media (max-width:339px){
     .tool-label{ display:none; }
     .tool{ padding:8px; }
     .toolbar{ gap:2px; padding:4px; }
