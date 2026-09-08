@@ -125,7 +125,7 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
     }`;
 
   return (
-    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] min-[940px]:pt-[72px] pb-20">
       {/* Header row */}
       <div
         className="fade-up flex items-center justify-between mb-6"

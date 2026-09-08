@@ -36,7 +36,7 @@ export default function Nav() {
   return (
     <>
       {/* Desktop sidebar */}
-      <nav className="hidden md:flex fixed top-[72px] left-[140px] flex-col gap-2 z-10 items-start">
+      <nav className="nav-rail hidden min-[940px]:flex fixed top-[72px] flex-col gap-2 z-10 items-start">
         {nav.map((item, i) => {
           const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
           return (
@@ -56,7 +56,7 @@ export default function Nav() {
 
       {/* Mobile top bar */}
       <div
-        className="md:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-end px-5 h-14"
+        className="min-[940px]:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-end px-5 h-14"
         style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <button onClick={() => setOpen(!open)} className="text-neutral-400 hover:text-white transition-colors p-1" aria-label="Menu">
@@ -71,7 +71,7 @@ export default function Nav() {
       {/* Mobile menu */}
       {open && (
         <div
-          className="md:hidden fixed inset-0 z-40 pt-14"
+          className="min-[940px]:hidden fixed inset-0 z-40 pt-14"
           style={{ background: "rgba(0,0,0,0.96)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
         >
           <nav className="flex flex-col px-6 pt-4">

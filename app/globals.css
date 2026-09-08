@@ -133,3 +133,31 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
 .prose table tbody tr:nth-child(even) {
   background-color: #fafafa;
 }
+
+
+/* ── Sidebar rail vs. centred content ──────────────────────────────────────
+   The nav is fixed to the viewport's left edge while each page centres its
+   column in the *full* viewport. Those two are independent, so as the window
+   narrows the column slides underneath the nav and the text runs through it.
+   The nav is 122px wide ("Photography" is the widest item).
+
+   Rail: sit 24px clear of the column's left edge — 456px = half the 620px
+   column + 122 nav + 24 gap — but never further right than the original
+   140px, so nothing moves at the wide widths this was designed at (>=1216px).
+   Clamped at 12px so it can't run off the left edge. */
+.nav-rail {
+  left: clamp(12px, calc(50% - 456px), 140px);
+}
+
+/* Photography's column is 820px rather than 620px, so it collided sooner —
+   at 1280px its content started at 230px while the rail ended at 262px. Cap
+   it to whatever fits beside the rail; it reaches its full 820px at ~1400px.
+   580px = 2 x (140px rail + 122px nav + 28px gap). */
+.wide-col {
+  max-width: 820px;
+}
+@media (min-width: 940px) {
+  .wide-col {
+    max-width: min(820px, calc(100vw - 580px));
+  }
+}

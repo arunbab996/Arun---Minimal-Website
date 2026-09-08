@@ -113,7 +113,7 @@ export default function Home() {
   return (
     <main
       data-page="home"
-      className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20"
+      className="mx-auto max-w-[620px] px-5 pt-[80px] min-[940px]:pt-[72px] pb-20"
     >
       {/* Name + tagline */}
       <div

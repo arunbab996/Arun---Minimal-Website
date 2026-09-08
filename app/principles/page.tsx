@@ -28,7 +28,7 @@ const NAV_COUNT = 6;
 
 export default function PrinciplesPage() {
   return (
-    <main className="mx-auto max-w-[620px] px-5 pt-[80px] md:pt-[72px] pb-20">
+    <main className="mx-auto max-w-[620px] px-5 pt-[80px] min-[940px]:pt-[72px] pb-20">
       <h1
         className="fade-up mb-10 text-[19px] font-semibold dark:text-white"
         style={{ animationDelay: `${NAV_COUNT * 0.05}s` }}

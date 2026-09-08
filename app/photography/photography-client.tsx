@@ -42,7 +42,7 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
   let animIndex = NAV_COUNT;
 
   return (
-    <main className="mx-auto max-w-[820px] px-5 pt-[80px] md:pt-[72px] pb-20">
+    <main className="mx-auto wide-col w-full px-5 pt-[80px] min-[940px]:pt-[72px] pb-20">
       {groups.map((group) => {
         const headerDelay = animIndex++;
         const colStartDelay = animIndex;
