@@ -187,8 +187,13 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
    (SVG url() filter, applied inline by useLiquidGlass) is Chromium-only;
    Safari and Firefox drop a declaration they cannot parse and fall back to
    this blur/saturate, which still looks like glass. */
+/* NOTE: no `position` here. This file is unlayered, and unlayered styles beat
+   anything in a cascade layer regardless of specificity, so declaring it —
+   even via :where() — overrode Tailwind's `absolute` (which lives in
+   @layer utilities) and turned the lightbox caption into a flex sibling that
+   shoved the photo off-centre. The ::after sheen needs a positioned ancestor,
+   so give the element `relative` or `absolute` yourself. */
 .liquid-glass {
-  position: relative;
   background: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.14) 0%,
