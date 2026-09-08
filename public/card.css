@@ -116,6 +116,15 @@
     pointer-events:none;
     transition:opacity 0.2s ease;
   }
+  /* The rule above is not enough on its own: `.stage.closed .card-scene` sets
+     pointer-events:auto so the tucked card can be clicked, and being the more
+     specific selector it survived. The card was invisible but still hit-testing
+     at z-index 60 — above the lightbox — so clicking the right-hand side of an
+     open photo opened the business card instead of advancing. */
+  html.menu-open .stage.closed .card-scene,
+  html.overlay-open .stage.closed .card-scene{
+    pointer-events:none;
+  }
   .stage.closed .toolbar,
   .stage.closed .flip-btn,
   .stage.closed .close-btn{
