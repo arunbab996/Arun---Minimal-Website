@@ -27,12 +27,13 @@ function ListIcon({ active }: { active: boolean }) {
   );
 }
 
-function BookGridCard({ book }: { book: Book }) {
+function BookGridCard({ book, delay }: { book: Book; delay?: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      className="group relative w-[88px]"
+      className={`group relative w-[88px]${delay === undefined ? "" : " fade-up"}`}
+      style={delay === undefined ? undefined : { animationDelay: `${delay}s` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -73,9 +74,12 @@ function BookGridCard({ book }: { book: Book }) {
   );
 }
 
-function BookListRow({ book }: { book: Book }) {
+function BookListRow({ book, delay }: { book: Book; delay?: number }) {
   return (
-    <div className="flex items-center gap-3 py-2.5 border-b border-neutral-100 dark:border-neutral-800 group">
+    <div
+      className={`flex items-center gap-3 py-2.5 border-b border-neutral-100 dark:border-neutral-800 group${delay === undefined ? "" : " fade-up"}`}
+      style={delay === undefined ? undefined : { animationDelay: `${delay}s` }}
+    >
       <div className="relative shrink-0 w-8 h-12 overflow-hidden rounded-[2px] shadow-sm">
         <img src={book.cover} alt={book.title} className="h-full w-full object-cover" loading="lazy" />
       </div>
@@ -117,6 +121,26 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
   const rest = filtered.filter((b) => !b.banger && !b.status);
   const isSearching = query.trim().length > 0;
 
+  // The cascade should play once, on arrival. Re-running it per keystroke as
+  // filtered results mount would strobe the whole shelf while typing, so the
+  // first interaction turns it off for the rest of the visit.
+  const [intro, setIntro] = useState(true);
+  const endIntro = () => setIntro((on) => (on ? false : on));
+
+  // Books stagger in sequence rather than each section appearing as one block.
+  // The step is small and capped: with a full shelf an uncapped stagger would
+  // take many seconds to finish, and everything past the first rows is below
+  // the fold anyway.
+  const STEP = 0.025, CAP = 0.5;
+  const delayFor = (base: number, i: number) =>
+    intro ? base + Math.min(i * STEP, CAP) : undefined;
+
+  // Each section picks up where the previous one left off, so the shelf reads
+  // as one continuous cascade rather than three separate reveals.
+  const crBase = (NAV_COUNT + 3) * 0.05;
+  const bangersBase = crBase + Math.min(currentlyReading.length * STEP, CAP) + 0.05;
+  const restBase = bangersBase + Math.min(bangers.length * STEP, CAP) + 0.05;
+
   const toggleClass = (active: boolean) =>
     `p-1.5 rounded-md transition-colors ${
       active
@@ -133,10 +157,10 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
       >
         <h1 className="text-[19px] font-semibold dark:text-white">Bookshelf</h1>
         <div className="flex items-center gap-1">
-          <button className={toggleClass(view === "grid")} onClick={() => setView("grid")} aria-label="Grid view">
+          <button className={toggleClass(view === "grid")} onClick={() => { endIntro(); setView("grid"); }} aria-label="Grid view">
             <GridIcon active={view === "grid"} />
           </button>
-          <button className={toggleClass(view === "list")} onClick={() => setView("list")} aria-label="List view">
+          <button className={toggleClass(view === "list")} onClick={() => { endIntro(); setView("list"); }} aria-label="List view">
             <ListIcon active={view === "list"} />
           </button>
         </div>
@@ -150,7 +174,7 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => { endIntro(); setQuery(e.target.value); }}
           placeholder="Search by title or author..."
           className="w-full rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 px-3 py-2 text-[13px] text-[#1a1a1a] dark:text-[#e5e5e5] placeholder:text-neutral-400 outline-none focus:border-neutral-400 dark:focus:border-neutral-600 transition-colors"
         />
@@ -158,19 +182,16 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
 
       {/* Search results */}
       {isSearching ? (
-        <section
-          className="fade-up"
-          style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}
-        >
+        <section>
           {filtered.length === 0 ? (
             <p className="text-sm text-neutral-400">No books found.</p>
           ) : view === "grid" ? (
             <div className="flex flex-wrap gap-4">
-              {filtered.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
+              {filtered.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} delay={delayFor(crBase, i)} />)}
             </div>
           ) : (
             <div>
-              {filtered.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}
+              {filtered.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} delay={delayFor(crBase, i)} />)}
             </div>
           )}
         </section>
@@ -185,16 +206,13 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 Currently Reading
               </h2>
-              <div
-                className="fade-up"
-                style={{ animationDelay: `${(NAV_COUNT + 3) * 0.05}s` }}
-              >
+              <div>
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {currentlyReading.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
+                    {currentlyReading.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} delay={delayFor(crBase, i)} />)}
                   </div>
                 ) : (
-                  <div>{currentlyReading.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
+                  <div>{currentlyReading.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} delay={delayFor(crBase, i)} />)}</div>
                 )}
               </div>
             </section>
@@ -209,16 +227,13 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 Absolute Bangers
               </h2>
-              <div
-                className="fade-up"
-                style={{ animationDelay: `${(NAV_COUNT + 5) * 0.05}s` }}
-              >
+              <div>
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {bangers.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
+                    {bangers.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} delay={delayFor(bangersBase, i)} />)}
                   </div>
                 ) : (
-                  <div>{bangers.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
+                  <div>{bangers.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} delay={delayFor(bangersBase, i)} />)}</div>
                 )}
               </div>
             </section>
@@ -233,16 +248,13 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
               >
                 All Books
               </h2>
-              <div
-                className="fade-up"
-                style={{ animationDelay: `${(NAV_COUNT + 7) * 0.05}s` }}
-              >
+              <div>
                 {view === "grid" ? (
                   <div className="flex flex-wrap gap-4">
-                    {rest.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} />)}
+                    {rest.map((book, i) => <BookGridCard key={`${book.title}-${i}`} book={book} delay={delayFor(restBase, i)} />)}
                   </div>
                 ) : (
-                  <div>{rest.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} />)}</div>
+                  <div>{rest.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} delay={delayFor(restBase, i)} />)}</div>
                 )}
               </div>
             </section>
