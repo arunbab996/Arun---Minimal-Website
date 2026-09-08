@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePreview, usePreloadPreviews } from "./use-preview";
 import type { Experiment } from "./data";
 import Footer from "../footer";
 
@@ -40,42 +41,50 @@ const TAGS: Record<string, { label: string; color: string }> = {
 };
 
 const SCREENSHOTS: Record<string, string> = {
-  "Magic Internet Money":          "/images/experiments/magic-internet-money.png",
-  "discovery/OS":                  "/images/experiments/discovery-os.png",
-  "Y Combinator Bot":              "/images/experiments/y-combinator-bot.png",
-  "Voyager":                       "/images/experiments/voyager.png",
-  "Pokédex":                       "/images/experiments/pokedex.png",
-  "xPay":                          "/images/experiments/xpay.png",
-  "Cybrilla (KYC Debugger)":       "/images/experiments/cybrilla-kyc-debugger.png",
-  "Reflow":                        "/images/experiments/reflow.png",
-  "Strategic Risk Intelligence":   "/images/experiments/strategic-risk-intelligence.png",
-  "Draper":                        "/images/experiments/draper.png",
-  "ScopeX":                        "/images/experiments/scopex.png",
-  "Polaroid":                      "/images/experiments/polaroid.png",
-  "Mission Control v2.0":          "/images/experiments/mission-control.png",
-  "Helium Supply Intel Dashboard": "/images/experiments/helium-supply-intel.png",
-  "Helium Renter Flow":            "/images/experiments/helium-renter-flow.png",
-  "Uniblox SOC 2 Tracker":         "/images/experiments/uniblox-soc2.png",
-  "Mint & Lily CS Agent":          "/images/experiments/mint-lily-cs-agent.png",
-  "EquiParser":                    "/images/experiments/equiparser.png",
+  "Magic Internet Money":          "/images/experiments/magic-internet-money.webp",
+  "discovery/OS":                  "/images/experiments/discovery-os.webp",
+  "Y Combinator Bot":              "/images/experiments/y-combinator-bot.webp",
+  "Voyager":                       "/images/experiments/voyager.webp",
+  "Pokédex":                       "/images/experiments/pokedex.webp",
+  "xPay":                          "/images/experiments/xpay.webp",
+  "Cybrilla (KYC Debugger)":       "/images/experiments/cybrilla-kyc-debugger.webp",
+  "Reflow":                        "/images/experiments/reflow.webp",
+  "Strategic Risk Intelligence":   "/images/experiments/strategic-risk-intelligence.webp",
+  "Draper":                        "/images/experiments/draper.webp",
+  "ScopeX":                        "/images/experiments/scopex.webp",
+  "Polaroid":                      "/images/experiments/polaroid.webp",
+  "Mission Control v2.0":          "/images/experiments/mission-control.webp",
+  "Helium Supply Intel Dashboard": "/images/experiments/helium-supply-intel.webp",
+  "Helium Renter Flow":            "/images/experiments/helium-renter-flow.webp",
+  "Uniblox SOC 2 Tracker":         "/images/experiments/uniblox-soc2.webp",
+  "Mint & Lily CS Agent":          "/images/experiments/mint-lily-cs-agent.webp",
+  "EquiParser":                    "/images/experiments/equiparser.webp",
 };
+
+const PREVIEW_URLS = Object.values(SCREENSHOTS);
 
 function ExperimentRow({
   item,
   delay,
   tag,
   grid = false,
+  preview,
 }: {
   item: Experiment;
   delay: number;
   tag?: { label: string; color: string };
   grid?: boolean;
+  preview: ReturnType<typeof usePreview>;
 }) {
-  const [hovered, setHovered] = useState(false);
   const screenshotUrl = SCREENSHOTS[item.title];
 
   return (
-    <div className="relative" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <div
+      className="relative"
+      onMouseEnter={(e) => screenshotUrl && preview.show(screenshotUrl, item.href, e)}
+      onMouseMove={(e) => screenshotUrl && preview.move(e)}
+      onMouseLeave={() => preview.hide()}
+    >
       <a
         href={item.href}
         target="_blank"
@@ -114,14 +123,6 @@ function ExperimentRow({
         </div>
         <span className={`shrink-0 text-neutral-300 group-hover:text-neutral-500 dark:text-neutral-600 dark:group-hover:text-neutral-400 transition-colors ${grid ? "text-sm" : "mt-1"}`}>↗</span>
       </a>
-
-      {/* Preview popup */}
-      {hovered && screenshotUrl && (
-        <div className="pointer-events-none absolute left-[105%] top-1/2 -translate-y-1/2 z-50 w-[380px] overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-xl">
-          <img src={screenshotUrl} alt={item.title} className="block w-full" />
-          <p className="px-3 py-2 text-xs text-neutral-400 truncate">{item.href.replace(/^https?:\/\//, "")}</p>
-        </div>
-      )}
     </div>
   );
 }
@@ -156,6 +157,8 @@ export default function PortfolioClient({
 }) {
   const expStartIndex = NAV_COUNT + 2 + perspectives.length + 1;
   const [view, setView] = useState<"list" | "grid">("list");
+  const preview = usePreview();
+  usePreloadPreviews(PREVIEW_URLS);
 
   return (
     <main className="mx-auto max-w-[620px] px-5 pt-[80px] min-[940px]:pt-[72px] pb-20">
@@ -265,6 +268,7 @@ export default function PortfolioClient({
                 item={item}
                 delay={(expStartIndex + i) * 0.05}
                 tag={TAGS[item.title]}
+                preview={preview}
               />
             ))}
           </div>
@@ -277,6 +281,7 @@ export default function PortfolioClient({
                 delay={(expStartIndex + i) * 0.05}
                 tag={TAGS[item.title]}
                 grid
+                preview={preview}
               />
             ))}
           </div>
@@ -284,6 +289,26 @@ export default function PortfolioClient({
       </section>
 
       <Footer />
+
+      {/* One preview for the whole list. pointer-events-none so it can sit
+          under the cursor without stealing the hover it is reacting to. */}
+      <div
+        ref={preview.panelRef}
+        aria-hidden
+        className={`pointer-events-none fixed left-0 top-0 z-50 hidden overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-xl transition-opacity duration-150 min-[940px]:block ${
+          preview.src ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ width: preview.panelW, willChange: "transform" }}
+      >
+        {preview.src && (
+          <>
+            <img src={preview.src} alt="" className="block w-full" />
+            <p className="px-3 py-2 text-xs text-neutral-400 truncate">
+              {preview.href.replace(/^https?:\/\//, "")}
+            </p>
+          </>
+        )}
+      </div>
     </main>
   );
 }
