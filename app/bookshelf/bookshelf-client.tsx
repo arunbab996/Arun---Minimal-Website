@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import TbrStack from "./tbr-stack";
 import Footer from "../footer";
 import type { Book } from "./page";
 
@@ -116,9 +117,11 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
     );
   }, [books, query]);
 
+  const tbr = filtered.filter((b) => b.tbr);
   const currentlyReading = filtered.filter((b) => b.status === "Currently Reading");
   const bangers = filtered.filter((b) => b.banger && b.status !== "Currently Reading");
-  const rest = filtered.filter((b) => !b.banger && !b.status);
+  // !b.tbr so a book tagged TBR shows in the pile only, not here as well.
+  const rest = filtered.filter((b) => !b.banger && !b.status && !b.tbr);
   const isSearching = query.trim().length > 0;
 
   // The cascade should play once, on arrival. Re-running it per keystroke as
@@ -197,6 +200,21 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
         </section>
       ) : (
         <>
+          {/* To Be Read — the physical pile */}
+          {tbr.length > 0 && (
+            <section className="mb-12">
+              <h2
+                className="fade-up mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-400"
+                style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}
+              >
+                To Be Read <span className="ml-1 normal-case tracking-normal text-neutral-500">({tbr.length})</span>
+              </h2>
+              <div className="fade-up" style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}>
+                <TbrStack books={tbr} />
+              </div>
+            </section>
+          )}
+
           {/* Currently Reading */}
           {currentlyReading.length > 0 && (
             <section className="mb-10">

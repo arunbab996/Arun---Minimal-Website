@@ -7,6 +7,7 @@ export type Book = {
   cover: string;
   status?: string;
   banger?: boolean;
+  tbr?: boolean;
   note?: string;
 };
 
@@ -35,6 +36,9 @@ async function getBooks(): Promise<Book[]> {
         : `https://covers.openlibrary.org/b/title/${encodeURIComponent(title?.trim() || "")}-M.jpg`,
       status: reading?.trim().toLowerCase() === "yes" ? "Currently Reading" : undefined,
       banger: category?.trim().toLowerCase() === "banger",
+      // Additive only: a "TBR" in the Category column opts a book into the
+      // pile. Nothing above changes.
+      tbr: category?.trim().toLowerCase().includes("tbr") ?? false,
     };
   }).filter((b) => b.title);
 }
