@@ -112,6 +112,8 @@ export default function TbrStack({ books }: { books: Book[] }) {
       nudge: ((h >> 6) % 13) - 6,      // small lateral offset
       paper: PAPER[h % PAPER.length],
       board: BOARD[h % BOARD.length],
+      spineBg: book.spine || BOARD[h % BOARD.length],
+      spineInk: book.spineInk || "rgba(255,255,255,0.82)",
     };
     y += thickness;
     return item;
@@ -227,7 +229,14 @@ export default function TbrStack({ books }: { books: Book[] }) {
                     width: p.thickness, height: BOOK_D,
                     transformOrigin: "left center",
                     transform: `rotateY(-90deg) translateX(-${p.thickness / 2}px)`,
-                    background: "linear-gradient(90deg,#141312,#242220 35%,#141312)",
+                    // Spine colour is sampled from the left edge of each cover,
+                    // which is where a real spine's artwork carries over from.
+                    // The overlaid gradient is the shading a rounded spine
+                    // picks up between its neighbours — flat colour reads as
+                    // cardboard.
+                    background: p.spineBg
+                      ? `linear-gradient(90deg, rgba(0,0,0,0.42), rgba(0,0,0,0) 28%, rgba(255,255,255,0.10) 52%, rgba(0,0,0,0) 74%, rgba(0,0,0,0.42)), ${p.spineBg}`
+                      : "linear-gradient(90deg,#141312,#242220 35%,#141312)",
                     borderRadius: "3px 0 0 3px",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     overflow: "hidden",
@@ -236,8 +245,9 @@ export default function TbrStack({ books }: { books: Book[] }) {
                   <span
                     style={{
                       writingMode: "vertical-rl",
-                      fontSize: 10, letterSpacing: "0.06em",
-                      color: "rgba(255,255,255,0.72)",
+                      fontSize: 10, letterSpacing: "0.06em", fontWeight: 500,
+                      color: p.spineInk,
+                      textShadow: "0 1px 1px rgba(0,0,0,0.35)",
                       whiteSpace: "nowrap", padding: "0 6px",
                       maxHeight: BOOK_D - 16, overflow: "hidden",
                     }}

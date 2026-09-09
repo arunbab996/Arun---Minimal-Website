@@ -200,21 +200,6 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
         </section>
       ) : (
         <>
-          {/* To Be Read — the physical pile */}
-          {tbr.length > 0 && (
-            <section className="mb-12">
-              <h2
-                className="fade-up mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-400"
-                style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}
-              >
-                To Be Read <span className="ml-1 normal-case tracking-normal text-neutral-500">({tbr.length})</span>
-              </h2>
-              <div className="fade-up" style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}>
-                <TbrStack books={tbr} />
-              </div>
-            </section>
-          )}
-
           {/* Currently Reading */}
           {currentlyReading.length > 0 && (
             <section className="mb-10">
@@ -232,6 +217,21 @@ export default function BookshelfClient({ books }: { books: Book[] }) {
                 ) : (
                   <div>{currentlyReading.map((book, i) => <BookListRow key={`${book.title}-${i}`} book={book} delay={delayFor(crBase, i)} />)}</div>
                 )}
+              </div>
+            </section>
+          )}
+
+          {/* To Be Read — the physical pile */}
+          {tbr.length > 0 && (
+            <section className="mb-12">
+              <h2
+                className="fade-up mb-2 text-xs font-semibold uppercase tracking-widest text-neutral-400"
+                style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}
+              >
+                To Be Read <span className="ml-1 normal-case tracking-normal text-neutral-500">({tbr.length})</span>
+              </h2>
+              <div className="fade-up" style={{ animationDelay: `${(NAV_COUNT + 2) * 0.05}s` }}>
+                <TbrStack books={tbr} />
               </div>
             </section>
           )}
