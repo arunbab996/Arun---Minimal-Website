@@ -62,15 +62,36 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
   useEffect(() => {
     if (!isOpen) return;
     const root = document.documentElement;
+    const body = document.body;
+    const scrollY = window.scrollY;
     const gutter = window.innerWidth - root.clientWidth;
-    const prevOverflow = root.style.overflow;
-    const prevPadding = root.style.paddingRight;
-    // On the root element: its overflow is what propagates to the viewport.
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overflow: root.style.overflow,
+      padding: root.style.paddingRight,
+    };
+
+    // overflow:hidden alone is not enough. iOS Safari honours it for the
+    // scrollbar but still lets a touch drag scroll the page, so the only
+    // reliable stop is taking the body out of flow. Offsetting it by the
+    // current scroll keeps the page looking unmoved behind the overlay.
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
     root.style.overflow = "hidden";
     if (gutter > 0) root.style.paddingRight = `${gutter}px`;
+
     return () => {
-      root.style.overflow = prevOverflow;
-      root.style.paddingRight = prevPadding;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      root.style.overflow = prev.overflow;
+      root.style.paddingRight = prev.padding;
+      // Taking the body out of flow discards the scroll position, so put it
+      // back — after the styles, or there is nothing to scroll yet.
+      window.scrollTo(0, scrollY);
     };
   }, [isOpen]);
 
