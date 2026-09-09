@@ -19,8 +19,10 @@ import type { Book } from "./page";
 
 const BOOK_W = 190;   // cover width, px
 const BOOK_D = 260;   // cover height (depth once lying flat)
-const MIN_T = 22;     // thinnest spine
-const MAX_T = 46;     // thickest spine
+const MIN_T = 15;     // thinnest spine
+const MAX_T = 32;     // thickest spine
+const STAGE_H = 460;  // scene height, px
+const FIT_H = 300;    // pile is scaled down past this, so it cannot overflow
 
 // Deterministic per-title jitter, so the pile looks hand-stacked but does not
 // reshuffle on every render.
@@ -31,6 +33,8 @@ function hash(s: string) {
 }
 
 const PAPER = ["#e8e2d6", "#e3dccd", "#efe9dc", "#ded7c7"];
+// Cloth-board colours for books with no cover image.
+const BOARD = ["#3b4a5a", "#4a3b47", "#3f4a3b", "#4a453b", "#39434f"];
 
 export default function TbrStack({ books }: { books: Book[] }) {
   const [active, setActive] = useState<number | null>(null);
@@ -43,6 +47,7 @@ export default function TbrStack({ books }: { books: Book[] }) {
   const raf = useRef<number | null>(null);
   const last = useRef(0);
   const dragging = useRef<{ px: number; py: number } | null>(null);
+  const fit = useRef(1);
 
   const frame = useCallback((now: number) => {
     const el = sceneRef.current;
@@ -53,7 +58,7 @@ export default function TbrStack({ books }: { books: Book[] }) {
 
     current.current.x += (target.current.x - current.current.x) * k;
     current.current.y += (target.current.y - current.current.y) * k;
-    el.style.transform = `rotateX(${current.current.x}deg) rotateY(${current.current.y}deg)`;
+    el.style.transform = `scale(${fit.current}) rotateX(${current.current.x}deg) rotateY(${current.current.y}deg)`;
 
     const settled =
       Math.abs(target.current.x - current.current.x) < 0.05 &&
@@ -106,17 +111,22 @@ export default function TbrStack({ books }: { books: Book[] }) {
       skew: ((h >> 3) % 9) - 4,        // a few degrees of yaw, as if dropped
       nudge: ((h >> 6) % 13) - 6,      // small lateral offset
       paper: PAPER[h % PAPER.length],
+      board: BOARD[h % BOARD.length],
     };
     y += thickness;
     return item;
   });
   const pileHeight = y;
+  // A 21-book pile is ~500px tall and was overflowing the stage onto the page
+  // above it. Scale the whole scene rather than compressing the books, so the
+  // covers keep their proportions.
+  fit.current = Math.min(1, FIT_H / pileHeight);
 
   return (
     <div className="select-none">
       <div
         className="relative mx-auto flex touch-none items-center justify-center"
-        style={{ height: 420, perspective: 1400, cursor: dragging.current ? "grabbing" : "grab" }}
+        style={{ height: STAGE_H, perspective: 1400, cursor: dragging.current ? "grabbing" : "grab" }}
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerUp={endDrag}
@@ -127,7 +137,7 @@ export default function TbrStack({ books }: { books: Book[] }) {
           className="relative"
           style={{
             transformStyle: "preserve-3d",
-            transform: "rotateX(-58deg) rotateY(-28deg)",
+            transform: `scale(${fit.current}) rotateX(-58deg) rotateY(-28deg)`,
             width: BOOK_W,
             height: BOOK_D,
           }}
@@ -163,21 +173,44 @@ export default function TbrStack({ books }: { books: Book[] }) {
                   cursor: "pointer",
                 }}
               >
-                {/* cover */}
+                {/* cover — or a typeset one, for the few with no edition on
+                    OpenLibrary. Better than the blank slab a broken image
+                    leaves behind. */}
                 <div
                   style={{
                     position: "absolute", inset: 0,
                     transform: `translateZ(${p.thickness / 2}px)`,
-                    backgroundImage: `url(${p.book.cover})`,
+                    backgroundImage: p.book.cover ? `url(${p.book.cover})` : undefined,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    backgroundColor: "#2a2a2a",
+                    background: p.book.cover
+                      ? undefined
+                      : `linear-gradient(150deg, ${p.board} 0%, rgba(0,0,0,0.45) 140%)`,
+                    backgroundColor: p.book.cover ? "#2a2a2a" : undefined,
                     borderRadius: 3,
                     boxShadow: isActive || isHover
                       ? "0 18px 40px rgba(0,0,0,0.55)"
                       : "0 6px 18px rgba(0,0,0,0.4)",
+                    display: p.book.cover ? undefined : "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    padding: "0 18px",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  {!p.book.cover && (
+                    <>
+                      <span style={{
+                        fontSize: 15, lineHeight: 1.25, fontWeight: 500,
+                        color: "rgba(255,255,255,0.94)",
+                      }}>{p.book.title}</span>
+                      <span style={{
+                        marginTop: 8, fontSize: 11, letterSpacing: "0.04em",
+                        color: "rgba(255,255,255,0.55)",
+                      }}>{p.book.author}</span>
+                    </>
+                  )}
+                </div>
                 {/* back board */}
                 <div
                   style={{
