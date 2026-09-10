@@ -56,7 +56,7 @@ export default function Nav() {
       {/* Mobile top bar */}
       <div
         className="min-[940px]:hidden fixed top-0 inset-x-0 z-50 flex items-center justify-end px-5 h-14"
-        style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ background: "rgba(var(--ground-rgb), 0.85)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
       >
         <button onClick={() => setOpen(!open)} className="text-neutral-400 hover:text-white transition-colors p-1" aria-label="Menu">
           {open ? (
@@ -71,7 +71,7 @@ export default function Nav() {
       {open && (
         <div
           className="min-[940px]:hidden fixed inset-0 z-40 pt-14"
-          style={{ background: "rgba(0,0,0,0.96)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
+          style={{ background: "rgba(var(--ground-rgb), 0.96)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
         >
           <nav className="flex flex-col px-6 pt-4">
             {nav.map((item) => {

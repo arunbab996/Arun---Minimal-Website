@@ -190,7 +190,8 @@ export default function PhotographyClient({ photos }: { photos: Photo[] }) {
 
       {lightbox !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain bg-black/95 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center overscroll-contain backdrop-blur-sm"
+          style={{ background: "rgba(var(--ground-rgb), 0.95)" }}
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"

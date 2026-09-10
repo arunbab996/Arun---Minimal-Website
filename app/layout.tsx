@@ -31,7 +31,7 @@ export default function RootLayout({
           before React hydrates, which reads as a mismatch. This suppresses
           only this element's own attributes, not its subtree, so genuine
           mismatches inside the app still surface. */}
-      <body className="min-h-full bg-black text-[#e5e5e5]" suppressHydrationWarning>
+      <body className="min-h-full text-[#e5e5e5]" suppressHydrationWarning>
         <Providers>
           <div className="min-h-screen">
             <Nav />

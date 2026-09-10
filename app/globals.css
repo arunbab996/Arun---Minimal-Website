@@ -20,6 +20,15 @@
 
 :root {
   --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* The page ground. Pitch black made the type feel like it was floating on a
+     hole; #141414 (senyil.com's) keeps the page dark but gives the surface
+     something to be. Everything that used to hardcode black reads this. */
+  --ground: #141414;
+  --ground-rgb: 20, 20, 20;
+}
+
+body {
+  background-color: var(--ground);
 }
 
 /* #stage is the business card; it sets EB Garamond / IBM Plex Mono
