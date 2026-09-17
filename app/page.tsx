@@ -121,7 +121,7 @@ export default function Home() {
         style={{ animationDelay: `${navCount * 0.05}s` }}
       >
         <h1 className="text-[23px] font-medium leading-snug text-[#111111] dark:text-[#e5e5e5]">Arun Baburaj</h1>
-        <p className="text-[18px] text-[#6b7280] dark:text-neutral-500">Figuring things out.</p>
+        <p className="text-[18px] text-[#6b7280] dark:text-neutral-500">Member of the token burning staff.</p>
       </div>
 
       {/* Bio blocks */}
