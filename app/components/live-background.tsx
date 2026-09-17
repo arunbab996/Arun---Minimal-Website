@@ -13,6 +13,6 @@
  */
 export default function LiveBackground() {
   return (
-    <div aria-hidden className="live-bg"><i /></div>
+    <div aria-hidden className="live-bg"><i /><b /></div>
   );
 }
