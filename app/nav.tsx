@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { playClick } from "./click-sound";
 import { useLiquidGlass, LiquidGlassFilter } from "./liquid-glass";
 
 const nav = [
@@ -40,7 +39,6 @@ export default function Nav() {
             <Link
               key={item.label}
               href={item.href}
-              onClick={() => playClick()}
               ref={active ? (glass.ref as React.Ref<HTMLAnchorElement>) : undefined}
               className={`fade-up relative px-3 py-1 rounded-full text-[17px] transition-colors ${active ? "liquid-glass" : ""}`}
               style={{ animationDelay: `${i * 0.05}s`, ...(active ? glass.style : {}) }}
@@ -80,7 +78,7 @@ export default function Nav() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  onClick={() => { playClick(); setOpen(false); }}
+                  onClick={() => setOpen(false)}
                   className={`py-4 text-[22px] transition-colors border-b border-white/5 ${
                     active ? "text-white font-medium" : "text-neutral-500"
                   }`}
