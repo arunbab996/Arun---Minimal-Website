@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Nav from "./nav";
 import Providers from "./providers";
 import BusinessCardTrigger from "./components/business-card-trigger";
-import LiveBackground from "./components/live-background";
 import "./globals.css";
 
 // The tab always reads "Arun Baburaj" — this is the only place a title is set.
@@ -33,7 +32,6 @@ export default function RootLayout({
           only this element's own attributes, not its subtree, so genuine
           mismatches inside the app still surface. */}
       <body className="min-h-full text-[#e5e5e5]" suppressHydrationWarning>
-        <LiveBackground />
         <Providers>
           <div className="min-h-screen">
             <Nav />
