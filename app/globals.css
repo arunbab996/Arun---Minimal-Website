@@ -20,11 +20,11 @@
 
 :root {
   --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  /* The page ground: Wimbledon green — Pantone 3435 C, the AELTC's dark royal
-     green. Deeper and less teal than phthalo, closer to a lawn in shadow.
+  /* The page ground: dark olive — the yellow-leaning green, kept at the same
+     depth as the earlier grounds so it reads as a surface rather than khaki.
      Everything that used to hardcode black reads this. */
-  --ground: #154734;
-  --ground-rgb: 21, 71, 52;
+  --ground: #3A4421;
+  --ground-rgb: 58, 68, 33;
 }
 
 body {
@@ -271,14 +271,14 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
 .live-bg::before {
   width: 70vmax; height: 70vmax;
   left: -20vmax; top: -25vmax;
-  background: radial-gradient(circle at center, rgba(46, 125, 88, 0.20) 0%, rgba(46, 125, 88, 0) 62%);
+  background: radial-gradient(circle at center, rgba(128, 146, 62, 0.20) 0%, rgba(128, 146, 62, 0) 62%);
   animation: liveDriftA 90s ease-in-out infinite alternate;
 }
 /* teal — lower right */
 .live-bg::after {
   width: 65vmax; height: 65vmax;
   right: -22vmax; bottom: -28vmax;
-  background: radial-gradient(circle at center, rgba(24, 110, 96, 0.14) 0%, rgba(24, 110, 96, 0) 62%);
+  background: radial-gradient(circle at center, rgba(96, 124, 92, 0.14) 0%, rgba(96, 124, 92, 0) 62%);
   animation: liveDriftB 110s ease-in-out infinite alternate;
 }
 
@@ -286,7 +286,7 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
 .live-bg > i {
   width: 55vmax; height: 55vmax;
   left: 45%; top: 30%;
-  background: radial-gradient(circle at center, rgba(225, 180, 90, 0.07) 0%, rgba(225, 180, 90, 0) 62%);
+  background: radial-gradient(circle at center, rgba(222, 170, 72, 0.10) 0%, rgba(222, 170, 72, 0) 62%);
   animation: liveDriftC 75s ease-in-out infinite alternate;
 }
 
