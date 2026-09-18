@@ -11,6 +11,7 @@ const nav = [
   { label: "Bookshelf",   href: "/bookshelf"   },
   { label: "Principles",  href: "/principles"  },
   { label: "Photography", href: "/photography" },
+  { label: "Writings",    href: "/writings"    },
 ];
 
 export default function Nav() {
