@@ -47,8 +47,10 @@ export default function DitherBackground() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const resize = () => {
-      w = Math.ceil(window.innerWidth / PIXEL);
-      h = Math.ceil(window.innerHeight / PIXEL);
+      // A hidden or embedded viewport can report 0x0; createImageData throws
+      // on a zero dimension, so never go below a single dot.
+      w = Math.max(1, Math.ceil(window.innerWidth / PIXEL));
+      h = Math.max(1, Math.ceil(window.innerHeight / PIXEL));
       canvas.width = w;
       canvas.height = h;
       // One buffer, reused every frame — allocating per frame is the easy way

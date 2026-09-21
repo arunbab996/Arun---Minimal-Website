@@ -26,12 +26,17 @@ export default async function PerspectivePage({ params }: { params: Promise<{ sl
         </Link>
       </FadeIn>
 
-      <FadeIn delay={250} className="mt-6 mb-10">
-        <h1 className="text-[19px] font-semibold leading-snug dark:text-white">{post.title}</h1>
-        <p className="mt-1 text-sm text-neutral-400 dark:text-neutral-500">{post.description}</p>
+      <FadeIn delay={250} className="mt-8 mb-12">
+        <h1 className="text-[26px] min-[480px]:text-[30px] font-medium leading-[1.2] tracking-[-0.015em] text-white [text-wrap:balance]">
+          {post.title}
+        </h1>
+        <p className="mt-3 text-[17px] leading-[1.55] text-neutral-400 [text-wrap:pretty]">
+          {post.description}
+        </p>
       </FadeIn>
 
-      <FadeIn delay={400} className="prose prose-sm prose-neutral dark:prose-invert max-w-none">
+      {/* Styled by .essay in globals.css, not the typography plugin — see there. */}
+      <FadeIn delay={400} className="essay">
         <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </FadeIn>
     </main>
