@@ -244,3 +244,18 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
     -webkit-backdrop-filter: none;
   }
 }
+
+/* ── Dithered background ───────────────────────────────────────────────────
+   The canvas is a quarter of the viewport; pixelated scaling is what keeps
+   each dot a hard-edged block instead of a blurred smear. See
+   components/dither-background.tsx for the field itself. */
+.dither-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  image-rendering: crisp-edges;   /* fallback */
+  image-rendering: pixelated;     /* preferred: true nearest-neighbour */
+}
