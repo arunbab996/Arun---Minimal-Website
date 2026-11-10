@@ -2,6 +2,15 @@
 
 import { useEffect } from "react";
 
+// card.css + card.js are ~2.4MB combined (embedded font + paper texture) for
+// a feature most visitors never open. Loading them on mount would tax every
+// page load for everyone, so instead we wait for a sign of real engagement
+// (the user has moved the mouse, scrolled, touched, or pressed a key) and
+// fall back to an idle-time load so the card is still ready soon for anyone
+// who never triggers one of those events.
+const ENGAGEMENT_EVENTS = ["pointerdown", "mousemove", "scroll", "touchstart", "keydown"] as const;
+const IDLE_FALLBACK_MS = 4000;
+
 /**
  * The business card, rendered inline in the page — not in an iframe.
  *
@@ -13,22 +22,49 @@ import { useEffect } from "react";
  */
 export default function BusinessCardTrigger() {
   useEffect(() => {
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "/card.css";
-    document.head.appendChild(css);
+    let loaded = false;
+    let css: HTMLLinkElement | null = null;
+    let js: HTMLScriptElement | null = null;
+    let idleHandle: number | undefined;
+    let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
 
-    // Into <head>, not <body> — React reconciles body's children and warns
-    // about script nodes it didn't render. The script re-runs on each mount so
-    // it rebinds to the fresh DOM nodes React just gave us.
-    const js = document.createElement("script");
-    js.src = "/card.js";
-    js.defer = true;
-    document.head.appendChild(js);
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      removeTriggers();
+
+      css = document.createElement("link");
+      css.rel = "stylesheet";
+      css.href = "/card.css";
+      document.head.appendChild(css);
+
+      // Into <head>, not <body> — React reconciles body's children and warns
+      // about script nodes it didn't render. The script re-runs on each mount
+      // so it rebinds to the fresh DOM nodes React just gave us.
+      js = document.createElement("script");
+      js.src = "/card.js";
+      js.defer = true;
+      document.head.appendChild(js);
+    }
+
+    function removeTriggers() {
+      ENGAGEMENT_EVENTS.forEach((evt) => window.removeEventListener(evt, load));
+      if (idleHandle !== undefined) window.cancelIdleCallback?.(idleHandle);
+      if (timeoutHandle !== undefined) clearTimeout(timeoutHandle);
+    }
+
+    ENGAGEMENT_EVENTS.forEach((evt) => window.addEventListener(evt, load, { once: true, passive: true }));
+
+    if ("requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(load, { timeout: IDLE_FALLBACK_MS });
+    } else {
+      timeoutHandle = setTimeout(load, IDLE_FALLBACK_MS);
+    }
 
     return () => {
-      css.remove();
-      js.remove();
+      removeTriggers();
+      css?.remove();
+      js?.remove();
     };
   }, []);
 
