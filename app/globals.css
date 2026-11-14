@@ -440,15 +440,12 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
   image-rendering: pixelated;     /* preferred: true nearest-neighbour */
 }
 
-/* ── Monet background ──────────────────────────────────────────────────────
-   Swap-in for the dither field above; see components/monet-background.tsx.
-   Same fixed/-1 slot. The image drifts in a slow zoom so it never reads as
-   a frozen photo; the scrim keeps the site's white text legible on top of
-   a busy, colourful painting; the canvas lays the occasional soft glint
-   over it. [data-lighting] grades the painting toward the visitor's local
-   time of day — day/sunrise/sunset/night — set by the component. To
-   revert, swap the component back in app/layout.tsx. */
-.monet-bg {
+/* ── Aurora background ─────────────────────────────────────────────────────
+   Swap-in for the dither field above; see components/aurora-background.tsx.
+   Same fixed/-1 slot, pure black underneath (body already sets --ground).
+   Each blob is a huge, heavily blurred radial gradient that only ever
+   animates `transform`, so it composites on the GPU with no repaint. */
+.aurora-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
@@ -456,67 +453,57 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
   pointer-events: none;
 }
 
-.monet-bg__image {
-  object-fit: cover;
-  transform-origin: 55% 45%;
-  animation: monetDrift 54s ease-in-out infinite alternate;
-  filter: saturate(0.95) brightness(0.86) contrast(1.02);
-  transition: filter 3s ease;
+.aurora-bg__blob {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  filter: blur(110px);
+  will-change: transform;
 }
 
-@keyframes monetDrift {
-  from { transform: scale(1) translate(0, 0); }
-  to   { transform: scale(1.07) translate(-1.2%, -1%); }
+.aurora-bg__blob--a {
+  top: -15vmax;
+  left: -10vmax;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.28) 0%, rgba(99, 102, 241, 0) 70%);
+  animation: auroraDriftA 64s ease-in-out infinite alternate;
+}
+
+.aurora-bg__blob--b {
+  bottom: -20vmax;
+  right: -15vmax;
+  width: 80vmax;
+  height: 80vmax;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(139, 92, 246, 0) 70%);
+  animation: auroraDriftB 78s ease-in-out infinite alternate;
+}
+
+.aurora-bg__blob--c {
+  top: 35%;
+  left: 55%;
+  width: 55vmax;
+  height: 55vmax;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, rgba(34, 211, 238, 0) 70%);
+  animation: auroraDriftC 52s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDriftA {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(8vmax, 10vmax) scale(1.12); }
+}
+
+@keyframes auroraDriftB {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-10vmax, -8vmax) scale(1.08); }
+}
+
+@keyframes auroraDriftC {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-6vmax, 8vmax) scale(0.92); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .monet-bg__image {
+  .aurora-bg__blob {
     animation: none;
   }
-}
-
-.monet-bg__scrim {
-  position: absolute;
-  inset: 0;
-  transition: background 3s ease;
-  background: radial-gradient(
-    120% 90% at 50% 20%,
-    rgba(10, 10, 10, 0.22) 0%,
-    rgba(5, 8, 5, 0.55) 55%,
-    rgba(0, 0, 0, 0.78) 100%
-  );
-}
-
-.monet-bg__glints {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: soft-light;
-}
-
-.monet-bg[data-lighting="sunrise"] .monet-bg__image,
-.monet-bg[data-lighting="sunset"] .monet-bg__image {
-  filter: saturate(0.85) brightness(0.74) sepia(0.18) hue-rotate(-6deg);
-}
-.monet-bg[data-lighting="sunrise"] .monet-bg__scrim,
-.monet-bg[data-lighting="sunset"] .monet-bg__scrim {
-  background: radial-gradient(
-    120% 90% at 50% 25%,
-    rgba(90, 40, 10, 0.28) 0%,
-    rgba(30, 14, 10, 0.62) 55%,
-    rgba(0, 0, 0, 0.85) 100%
-  );
-}
-
-.monet-bg[data-lighting="night"] .monet-bg__image {
-  filter: saturate(0.55) brightness(0.42) sepia(0.12) hue-rotate(170deg);
-}
-.monet-bg[data-lighting="night"] .monet-bg__scrim {
-  background: radial-gradient(
-    120% 90% at 50% 20%,
-    rgba(10, 16, 40, 0.4) 0%,
-    rgba(5, 8, 22, 0.72) 55%,
-    rgba(0, 0, 2, 0.9) 100%
-  );
 }
