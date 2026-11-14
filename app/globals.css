@@ -443,8 +443,13 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
 /* ── Aurora background ─────────────────────────────────────────────────────
    Swap-in for the dither field above; see components/aurora-background.tsx.
    Same fixed/-1 slot, pure black underneath (body already sets --ground).
-   Each blob is a huge, heavily blurred radial gradient that only ever
-   animates `transform`, so it composites on the GPU with no repaint. */
+   Each curtain is a tall, soft-edged radial gradient, anchored high so it
+   naturally fades out before reaching the bottom of the screen — real
+   aurora reads as something happening up in the sky, not a full-bleed
+   wash. `screen` blend mode is what makes overlapping curtains glow into
+   paler, brighter colour instead of just stacking opacity. Every curtain
+   only ever animates `transform`, so it composites on the GPU with no
+   repaint. */
 .aurora-bg {
   position: fixed;
   inset: 0;
@@ -453,57 +458,53 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
   pointer-events: none;
 }
 
-.aurora-bg__blob {
+.aurora-bg__curtain {
   position: absolute;
-  width: 70vmax;
-  height: 70vmax;
-  border-radius: 50%;
-  filter: blur(110px);
+  top: -10vmax;
+  height: 160vmax;
+  filter: blur(70px);
+  mix-blend-mode: screen;
   will-change: transform;
 }
 
-.aurora-bg__blob--a {
-  top: -15vmax;
-  left: -10vmax;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.28) 0%, rgba(99, 102, 241, 0) 70%);
-  animation: auroraDriftA 64s ease-in-out infinite alternate;
+.aurora-bg__curtain--a {
+  left: -8vmax;
+  width: 46vmax;
+  background: radial-gradient(55% 40% at 50% 22%, rgba(16, 185, 129, 0.55) 0%, rgba(16, 185, 129, 0) 72%);
+  animation: auroraSwayA 46s ease-in-out infinite alternate;
 }
 
-.aurora-bg__blob--b {
-  bottom: -20vmax;
-  right: -15vmax;
-  width: 80vmax;
-  height: 80vmax;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, rgba(139, 92, 246, 0) 70%);
-  animation: auroraDriftB 78s ease-in-out infinite alternate;
+.aurora-bg__curtain--b {
+  left: 28vmax;
+  width: 50vmax;
+  background: radial-gradient(55% 42% at 50% 28%, rgba(45, 212, 191, 0.42) 0%, rgba(45, 212, 191, 0) 72%);
+  animation: auroraSwayB 58s ease-in-out infinite alternate;
 }
 
-.aurora-bg__blob--c {
-  top: 35%;
-  left: 55%;
-  width: 55vmax;
-  height: 55vmax;
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, rgba(34, 211, 238, 0) 70%);
-  animation: auroraDriftC 52s ease-in-out infinite alternate;
+.aurora-bg__curtain--c {
+  left: 62vmax;
+  width: 42vmax;
+  background: radial-gradient(55% 38% at 50% 18%, rgba(167, 139, 250, 0.32) 0%, rgba(167, 139, 250, 0) 72%);
+  animation: auroraSwayC 64s ease-in-out infinite alternate;
 }
 
-@keyframes auroraDriftA {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(8vmax, 10vmax) scale(1.12); }
+@keyframes auroraSwayA {
+  from { transform: translateX(0) rotate(-3deg) scaleY(1); }
+  to   { transform: translateX(9vmax) rotate(4deg) scaleY(1.1); }
 }
 
-@keyframes auroraDriftB {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(-10vmax, -8vmax) scale(1.08); }
+@keyframes auroraSwayB {
+  from { transform: translateX(0) rotate(2deg) scaleY(1); }
+  to   { transform: translateX(-11vmax) rotate(-5deg) scaleY(0.92); }
 }
 
-@keyframes auroraDriftC {
-  from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(-6vmax, 8vmax) scale(0.92); }
+@keyframes auroraSwayC {
+  from { transform: translateX(0) rotate(-4deg) scaleY(1); }
+  to   { transform: translateX(7vmax) rotate(3deg) scaleY(1.06); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora-bg__blob {
+  .aurora-bg__curtain {
     animation: none;
   }
 }
