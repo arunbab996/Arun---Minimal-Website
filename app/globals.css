@@ -439,3 +439,84 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
   image-rendering: crisp-edges;   /* fallback */
   image-rendering: pixelated;     /* preferred: true nearest-neighbour */
 }
+
+/* ── Monet background ──────────────────────────────────────────────────────
+   Swap-in for the dither field above; see components/monet-background.tsx.
+   Same fixed/-1 slot. The image drifts in a slow zoom so it never reads as
+   a frozen photo; the scrim keeps the site's white text legible on top of
+   a busy, colourful painting; the canvas lays the occasional soft glint
+   over it. [data-lighting] grades the painting toward the visitor's local
+   time of day — day/sunrise/sunset/night — set by the component. To
+   revert, swap the component back in app/layout.tsx. */
+.monet-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.monet-bg__image {
+  object-fit: cover;
+  transform-origin: 55% 45%;
+  animation: monetDrift 54s ease-in-out infinite alternate;
+  filter: saturate(0.95) brightness(0.86) contrast(1.02);
+  transition: filter 3s ease;
+}
+
+@keyframes monetDrift {
+  from { transform: scale(1) translate(0, 0); }
+  to   { transform: scale(1.07) translate(-1.2%, -1%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monet-bg__image {
+    animation: none;
+  }
+}
+
+.monet-bg__scrim {
+  position: absolute;
+  inset: 0;
+  transition: background 3s ease;
+  background: radial-gradient(
+    120% 90% at 50% 20%,
+    rgba(10, 10, 10, 0.22) 0%,
+    rgba(5, 8, 5, 0.55) 55%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
+}
+
+.monet-bg__glints {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: soft-light;
+}
+
+.monet-bg[data-lighting="sunrise"] .monet-bg__image,
+.monet-bg[data-lighting="sunset"] .monet-bg__image {
+  filter: saturate(0.85) brightness(0.74) sepia(0.18) hue-rotate(-6deg);
+}
+.monet-bg[data-lighting="sunrise"] .monet-bg__scrim,
+.monet-bg[data-lighting="sunset"] .monet-bg__scrim {
+  background: radial-gradient(
+    120% 90% at 50% 25%,
+    rgba(90, 40, 10, 0.28) 0%,
+    rgba(30, 14, 10, 0.62) 55%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+.monet-bg[data-lighting="night"] .monet-bg__image {
+  filter: saturate(0.55) brightness(0.42) sepia(0.12) hue-rotate(170deg);
+}
+.monet-bg[data-lighting="night"] .monet-bg__scrim {
+  background: radial-gradient(
+    120% 90% at 50% 20%,
+    rgba(10, 16, 40, 0.4) 0%,
+    rgba(5, 8, 22, 0.72) 55%,
+    rgba(0, 0, 2, 0.9) 100%
+  );
+}
