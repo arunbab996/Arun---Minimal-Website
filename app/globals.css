@@ -22,8 +22,10 @@
   --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   /* The page ground. Everything that used to hardcode black reads this, so
      the colour is a single knob. */
-  --ground: #000000;
-  --ground-rgb: 0, 0, 0;
+  /* Matte black: a hair off pure #000, so the page reads as a flat, soft
+     surface rather than an unlit screen. */
+  --ground: #0c0c0c;
+  --ground-rgb: 12, 12, 12;
 }
 
 body {
