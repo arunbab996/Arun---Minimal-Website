@@ -22,8 +22,10 @@
   --font-sans: 'Sunghyun Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   /* The page ground. Everything that used to hardcode black reads this, so
      the colour is a single knob. */
-  --ground: #000000;
-  --ground-rgb: 0, 0, 0;
+  /* Matte black: a hair off pure #000, so the page reads as a flat, soft
+     surface rather than an unlit screen. */
+  --ground: #0c0c0c;
+  --ground-rgb: 12, 12, 12;
 }
 
 body {
@@ -438,34 +440,4 @@ html:has(main[data-page="home"]) body::-webkit-scrollbar {
   pointer-events: none;
   image-rendering: crisp-edges;   /* fallback */
   image-rendering: pixelated;     /* preferred: true nearest-neighbour */
-}
-
-/* ── Wood background ───────────────────────────────────────────────────────
-   Swap-in for the dither field above; see components/wood-background.tsx.
-   Same fixed/-1 slot. No animation anywhere in this one, deliberately —
-   the point is for the page to read as sitting on an actual physical
-   surface, which a drifting or glowing background would undercut. The
-   scrim is warm (brown-black, not cool black) so it darkens toward
-   legible contrast without fighting the wood underneath it. */
-.wood-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.wood-bg__image {
-  object-fit: cover;
-}
-
-.wood-bg__scrim {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    120% 90% at 50% 20%,
-    rgba(10, 6, 3, 0.35) 0%,
-    rgba(8, 5, 3, 0.62) 55%,
-    rgba(4, 2, 1, 0.84) 100%
-  );
 }
